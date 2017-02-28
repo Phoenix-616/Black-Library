@@ -1,0 +1,13 @@
+/Phoenix/BattleCruiser/BattleCruiserClient/nbproject/private/
+/Phoenix/BattleCruiser/BattleCruiserServer/nbproject/private/
+*.properties
+
+Phoenix/BattleCruiser/BattleCruiserClient/nbproject/
+
+Phoenix/BattleCruiser/BattleCruiserClient/build\.xml
+
+*.mf
+
+Phoenix/BattleCruiser/BattleCruiserServer/build\.xml
+
+*.xml
