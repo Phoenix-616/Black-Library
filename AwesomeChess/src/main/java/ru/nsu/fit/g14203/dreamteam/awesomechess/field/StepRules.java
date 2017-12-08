@@ -1,0 +1,37 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ru.nsu.fit.g14203.dreamteam.awesomechess.field;
+
+/**
+ *
+ * @author phoenix
+ */
+public class StepRules {
+    
+    //Нельзя создать экземпляр класса
+    private StepRules(){}
+    
+    //Направления хода
+    public static enum StepDirection {FORWARD, BACK, RIGHT, LEFT, FORWARD_RIGHT, FORWARD_LEFT, BACK_RIGHT, BACK_LEFT, HORSE_STYLE}
+    
+    //Направление хода с ограничением. Например, пешки ходят только на 1-2 клетки
+    public static class StepDirectionWithLimit {
+        public final StepDirection direction;
+        public final int limit;
+        public final int firstStepLimit;
+        
+        public StepDirectionWithLimit(StepDirection dir, int lim, int fLim) {
+            direction = dir;
+            limit = lim;
+            firstStepLimit = fLim;
+        }
+    }
+    
+    //В зависимости от направления и текущих координат выдается следующая клетка и проверяется моделью на валидность, если клетки нет null
+    public static FieldCoord GetNextFieldInDir(StepDirection dir, FieldCoord curCoord) {
+        return null;
+    }
+}
