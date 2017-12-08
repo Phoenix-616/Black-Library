@@ -11,3 +11,11 @@ Phoenix/BattleCruiser/BattleCruiserClient/build\.xml
 Phoenix/BattleCruiser/BattleCruiserServer/build\.xml
 
 *.xml
+/Phoenix/DBServer/nbproject/private/
+/Phoenix/DBServer/build/
+/Phoenix/NskGoServer/build/
+/Phoenix/XMLTest/nbproject/private/
+/Phoenix/XMLTest/build/
+/Phoenix/BattleCruiserServer/nbproject/private/
+/Phoenix/BattleCruiser/BattleCruiserServer/build/
+/Phoenix/BattleCruiser/BattleCruiser/build/
