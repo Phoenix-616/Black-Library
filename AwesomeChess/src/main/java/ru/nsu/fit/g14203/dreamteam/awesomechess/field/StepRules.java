@@ -14,16 +14,16 @@ public class StepRules {
     //Нельзя создать экземпляр класса
     private StepRules(){}
     
-    //Направления хода
-    public static enum StepDirection {FORWARD, BACK, RIGHT, LEFT, FORWARD_RIGHT, FORWARD_LEFT, BACK_RIGHT, BACK_LEFT, HORSE_STYLE}
+    //Тип фигуры (По порядку: король, ферзь, ладья, конь, слон, пешка)
+    public static enum FigureTypes { KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN}
     
-    //Направление хода с ограничением. Например, пешки ходят только на 1-2 клетки
+    /*//Направление хода с ограничением. Например, пешки ходят только на 1-2 клетки
     public static class StepDirectionWithLimit {
-        public final StepDirection direction;
+        public final FigureTypes direction;
         public final int limit;
         public final int firstStepLimit;
         
-        public StepDirectionWithLimit(StepDirection dir, int lim, int fLim) {
+        public StepDirectionWithLimit(FigureTypes dir, int lim, int fLim) {
             direction = dir;
             limit = lim;
             firstStepLimit = fLim;
@@ -31,7 +31,7 @@ public class StepRules {
     }
     
     //В зависимости от направления и текущих координат выдается следующая клетка и проверяется моделью на валидность, если клетки нет null
-    public static FieldCoord GetNextFieldInDir(StepDirection dir, FieldCoord curCoord) {
+    public static FieldCoord GetNextFieldInDir(FigureTypes dir, FieldCoord curCoord) {
         return null;
-    }
+    }*/
 }
