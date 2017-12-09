@@ -5,9 +5,6 @@
  */
 package ru.nsu.fit.g14203.dreamteam.awesomechess.creatures;
 
-import java.util.List;
-import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules.StepDirectionWithLimit;
-
 /**
  *
  * @author phoenix
