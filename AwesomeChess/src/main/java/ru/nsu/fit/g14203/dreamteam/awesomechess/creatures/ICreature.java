@@ -19,8 +19,6 @@ public interface ICreature {
     String GetDescription();
     //Получить силу
     int GetStrength();
-    //Получить направления возможного хода
-    List<StepDirectionWithLimit> GetStepAbilities();
     //Получить объект альтернативной формы
     ICreature GetOtherForm();
     //Получить имя файла изображения

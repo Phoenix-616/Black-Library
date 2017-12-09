@@ -32,9 +32,6 @@ public abstract class ACreature implements ICreature {
     }
 
     @Override
-    public abstract List<StepRules.StepDirectionWithLimit> GetStepAbilities();
-
-    @Override
     public abstract ICreature GetOtherForm();
 
     @Override

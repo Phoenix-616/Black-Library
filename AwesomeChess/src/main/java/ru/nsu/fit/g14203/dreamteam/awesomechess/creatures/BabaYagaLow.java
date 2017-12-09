@@ -20,11 +20,6 @@ public class BabaYagaLow extends ACreature {
     }
 
     @Override
-    public List<StepRules.StepDirectionWithLimit> GetStepAbilities() {
-        return null;
-    }
-
-    @Override
     public ICreature GetOtherForm() {
         return null;
     }
