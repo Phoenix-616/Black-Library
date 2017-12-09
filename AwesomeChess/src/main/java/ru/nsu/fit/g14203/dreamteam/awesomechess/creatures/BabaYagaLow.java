@@ -2,28 +2,21 @@ package ru.nsu.fit.g14203.dreamteam.awesomechess.creatures;
 
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Alena on 08.12.2017.
  */
-public class BabaYagaLow implements ICreature {
+public class BabaYagaLow extends ACreature {
 
-    private String name = "Яга Молодая";
-    
-    @Override
-    public String GetName() {
-        return name ;
-    }
 
-    @Override
-    public String GetDescription() {
-        return null;
-    }
-
-    @Override
-    public int GetStrength() {
-        return 0;
+    public BabaYagaLow(){
+        name = "Яга Молодая";
+        description = "Яга Молодая";
+        strenght = 10;
+        imageFileName = "LBabaYaga.jpeg";
+        stepAbilities = new LinkedList<>();
     }
 
     @Override
@@ -36,8 +29,4 @@ public class BabaYagaLow implements ICreature {
         return null;
     }
 
-    @Override
-    public String GetImgFileName() {
-        return null;
     }
-}
