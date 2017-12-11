@@ -20,4 +20,6 @@ public interface ICreature {
     ICreature GetOtherForm();
     //Получить имя файла изображения
     String GetImgFileName();
+    //Получить имя иконки
+    String GetIconFileName();
 }
