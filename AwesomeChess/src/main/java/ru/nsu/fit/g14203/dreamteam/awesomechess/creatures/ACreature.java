@@ -9,6 +9,7 @@ public abstract class ACreature implements ICreature {
     protected String description;
     protected int strenght;
     protected String imageFileName;
+    protected String iconFileName;
 
     @Override
     public String GetName() {
@@ -24,6 +25,9 @@ public abstract class ACreature implements ICreature {
     public int GetStrength() {
         return strenght;
     }
+
+    @Override
+    public String GetIconFileName(){return iconFileName; }
 
     @Override
     public abstract ICreature GetOtherForm();
