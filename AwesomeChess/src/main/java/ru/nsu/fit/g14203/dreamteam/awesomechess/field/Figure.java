@@ -6,22 +6,20 @@
 package ru.nsu.fit.g14203.dreamteam.awesomechess.field;
 
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.ICreature;
+import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules.FigureType;
 
 /**
  *
  * @author phoenix
  */
-public class Cell {
+public class Figure {
+    private ICreature creature;
+    public FigureType TYPE;
     
-    private Figure figure = null;
-    
-    public Cell() { }
-    
-    public Cell(Figure figure) {
-        this.figure = figure;
+    public Figure(ICreature cr, FigureType type) {
+        TYPE = type;
+        creature = cr;
     }
     
-    Figure GetFigure() {
-        return null;
-    }
+    
 }
