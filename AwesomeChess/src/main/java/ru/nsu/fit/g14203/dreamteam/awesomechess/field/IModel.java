@@ -16,7 +16,7 @@ public interface IModel {
     //Координаты нажатой модели
     public void CellClicked(FieldCoord coords);
     //Текущее состояние поля
-    public Cell[] GetState();
+    public Cell[][] GetState();
     //Карточки для отображения, null или пустой список, если нечего отображать
     public List<ICreature> GetSelectedCreatures();
     //Определитель хода
