@@ -16,6 +16,6 @@ public class HVolkolak extends ACreature {
 
     @Override
     public ICreature GetOtherForm() {
-        return null;
+        return new LVolkolak();
     }
 }
