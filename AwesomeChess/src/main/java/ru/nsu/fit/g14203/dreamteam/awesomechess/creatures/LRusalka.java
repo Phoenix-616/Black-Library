@@ -10,11 +10,12 @@ public class LRusalka extends ACreature {
         name = "Русалка";
         description = "Зловредный дух, что защекотит вас насмерть или утопит в близлежащем водоёме";
         strenght = 5;
-        imageFileName = "LRusalka.jpeg";
+        imageFileName = "LRusalka.jpg";
+        iconFileName = "";
     }
 
     @Override
     public ICreature GetOtherForm() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new HRusalka();
     }
 }
