@@ -12,4 +12,8 @@ public class FieldCoord {
         X = x;
         Y = y;
     }
+    
+    public boolean equals(FieldCoord o){
+        return (this.X == o.X) && (this.Y == o.Y);    
+    }
 }
