@@ -6,7 +6,7 @@ package ru.nsu.fit.g14203.dreamteam.awesomechess.creatures;
 public class LLesovik extends ACreature {
 
     public LLesovik(){
-        name = "Лешит";
+        name = "Леший";
         description = "Маленький, удаленький. За лесами следит, за ручьями глядит, птенчиоков ловит, лисичек гладит. " +
                 "Добрым путникам помогает, злых обкидывает мухоморами и снежком";
         strenght = 7;
@@ -16,6 +16,6 @@ public class LLesovik extends ACreature {
 
     @Override
     public ICreature GetOtherForm() {
-        return null;
+        return new HLesovik();
     }
 }
