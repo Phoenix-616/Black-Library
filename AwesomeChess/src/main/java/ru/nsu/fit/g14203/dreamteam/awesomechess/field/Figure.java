@@ -29,5 +29,13 @@ public class Figure {
         creature = cr;
     }
     
+    public ICreature getCreature(){
+        return creature;
+    }
+    
+    public void setCreature(ICreature cr){
+        creature = cr;
+    }
+    
     
 }
