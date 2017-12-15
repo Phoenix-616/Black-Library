@@ -42,7 +42,7 @@ public class StepRules {
     }
 
     private static boolean canKingGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
-
+    return false;
     }
 
     private static boolean canQueenGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
@@ -102,7 +102,7 @@ public class StepRules {
     }
 
     private static boolean canKnightGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
-
+        return false;
     }
 
     private static boolean canBishopGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
@@ -162,7 +162,23 @@ public class StepRules {
     }
 
     private static boolean canPawnGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
+        int y0, y1;  //y0 - координата той фигуры, которая стоит ниже
+        if (model.WhiteGoing()){
+            y0 = figureCoord.Y;
+            y1 = targetCoord.Y;
+        }
+        else{
+            y0 = targetCoord.Y;
+            y1 = figureCoord.Y;
+        }
+        if(figureCoord.X == targetCoord.X && y1-y0 == 1){ //если пешка идет на 1 вперед
+            return false;
+            //return model.cellIsEmpty(new FieldCoord(figureCoord.X, y1))
+        }
+        else{
 
+        }
+        return false;
     }
 
 
