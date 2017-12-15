@@ -16,11 +16,17 @@ public class Cell {
         this.figure = figure;
     }
     
-    Figure getFigure() {
-        return null;
+    public Cell(Cell o) {
+        this.figure = o.figure;
     }
     
-    void setFigure(Figure figure) {
+    public Figure getFigure() {
+        return figure;
+    }
+    
+    public void setFigure(Figure figure) {
         this.figure = figure;
     }
+    
+    
 }
