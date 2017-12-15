@@ -5,10 +5,23 @@
  */
 package ru.nsu.fit.g14203.dreamteam.awesomechess.field;
 
+import java.util.List;
+import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.ICreature;
+
 /**
  *
  * @author phoenix
  */
 public interface IModel {
-    
+    //Координаты нажатой модели
+    public void CellClicked(FieldCoord coords);
+    //Текущее состояние поля
+    public Cell[] GetState();
+    //Карточки для отображения, null или пустой список, если нечего отображать
+    public List<ICreature> GetSelectedCreatures();
+    //Определитель хода
+    public boolean WhiteGoing();
+    //Победа
+    public boolean WhiteWin();
+    public boolean BlackWin();
 }
