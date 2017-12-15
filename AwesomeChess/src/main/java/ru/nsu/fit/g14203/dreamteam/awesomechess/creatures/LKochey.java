@@ -10,11 +10,12 @@ public class LKochey extends ACreature {
         name = "Кощей Cмертный";
         description = "Ужас, летящий на крыльях ночи и убиваемый исключительно иглой из яйца из утки из зайца, что лежит в свинцом обитом сундуке";
         strenght = 9;
-        imageFileName = "LKochey.jpeg";
+        imageFileName = "LKochey.jpg";
+        iconFileName = "";
     }
 
     @Override
     public ICreature GetOtherForm() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new HKochey();
     }
 }
