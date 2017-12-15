@@ -1,6 +1,7 @@
 package ru.nsu.fit.g14203.dreamteam.awesomechess.field;
 
 import static java.lang.Integer.min;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.ICreature;
@@ -23,15 +24,21 @@ public class Model implements IModel {
     private boolean whiteTurn;
 
     private FieldCoord SelectedFigCoords = null;
+    
+    LinkedList<ICreature> selectedCreatures = new LinkedList<>();
+    LinkedList<String> log = new LinkedList<>();
 
     Random randomizer = new Random();
+    
+    int whitesAlive = 12;
+    int blacksAlive = 12;
 
     public void Model() {
         chessBoard = new Cell[8][8];
         renovate();
     }
 
-    public void renovate() {
+    private void renovate() {
 
         whiteTurn = true;
 
@@ -78,6 +85,8 @@ public class Model implements IModel {
             //если цвет выделенной фигуры совпадает с цветом хода, фигура может быть выделена
             if ((tmpCol == FigureColor.WHITE && whiteTurn) || (tmpCol == FigureColor.BLACK && !whiteTurn)) {
                 SelectedFigCoords = new FieldCoord(coords.X, coords.Y);
+                selectedCreatures = new LinkedList<>();
+                selectedCreatures.add(chessBoard[coords.X][coords.Y].getFigure().getCreature());
             }
             return;
         }
@@ -85,9 +94,16 @@ public class Model implements IModel {
         //если дважды ткнули в одну клетку - выбор фигуры снимается
         if (SelectedFigCoords.equals(coords)) {
             SelectedFigCoords = null;
+            selectedCreatures = new LinkedList<>();
             return;
         }
 
+        if(whiteTurn){
+            selectedCreatures.addLast(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+        }else{
+            selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+        }
+        
         //если фигура ...TYPE может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
         if (StepRules.canFigureGo(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE, SelectedFigCoords, coords, this)) {
             //и если эта клетка пуста...
@@ -98,6 +114,35 @@ public class Model implements IModel {
             }
 
             //если не пуста - бой
+            Figure firstBattler = chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure(), 
+                   secondBattler = chessBoard[coords.X][coords.Y].getFigure(), 
+                   winner;
+            
+            winner = battle(firstBattler, secondBattler);
+            
+            //атакующую фигуру убираем со старого места и...
+            chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].setFigure(null);
+            //победителя помещаем на место атаки
+            chessBoard[coords.X][coords.Y].setFigure(winner);
+            
+            newTurn();
+            
+            if(winner.COLOR == FigureColor.WHITE){
+                blacksAlive--;
+                if(blacksAlive == 0){
+                    log.add("Яркий свет полуденного солнца освещает мир вокруг, а его жители как ни в чем небывало "
+                            + "продолжают заниматься своими делами, даже не подозревая о великой битве, что совсем недавно прогремела.");
+                    log.add("== Победа светлых ==");
+                }
+            }
+            else{
+                whitesAlive--;
+                if(whitesAlive == 0){
+                    log.add("Мир вокруг окутывает кромешная тьма, со всех сторон слышен тихий, зловещий смех...");
+                    log.add("== Победа тёмных ==");
+                }
+            }
+            
         }
     }
 
@@ -117,23 +162,30 @@ public class Model implements IModel {
         whiteTurn = !whiteTurn;
     }
 
-    private void battle(FieldCoord battlerOneCoords, FieldCoord battlerTwoCoords) {
-        int oneStrength = chessBoard[battlerOneCoords.X][battlerOneCoords.Y].getFigure().getCreature().GetStrength();
-        int twoStrength = chessBoard[battlerTwoCoords.X][battlerTwoCoords.Y].getFigure().getCreature().GetStrength();
+    //бой
+    private Figure battle(Figure firstBattler, Figure secondBattler) {
 
-        boolean firstWeaker;
-        int minStrength = min(oneStrength, twoStrength);
+        int fistStrength = firstBattler.getCreature().GetStrength();
+        int secondStrength = secondBattler.getCreature().GetStrength();
 
-        if (oneStrength < twoStrength) {
-            minStrength = oneStrength;
-            firstWeaker = true;
-        }else{
-            minStrength = twoStrength;
-            firstWeaker = false;
+        int minStrength = min(fistStrength, secondStrength);
+        Figure weakerBattler;
+        Figure strongerBattler;
+
+        if (fistStrength < secondStrength) {
+            minStrength = fistStrength;
+            weakerBattler = firstBattler;
+            strongerBattler = secondBattler;
+        } else {
+            minStrength = secondStrength;
+            weakerBattler = secondBattler;
+            strongerBattler = firstBattler;
         }
-        
-        if (randomizer.nextInt(oneStrength + twoStrength) < minStrength);
 
+        if (randomizer.nextInt(fistStrength + secondStrength) < minStrength) {
+            return weakerBattler;
+        }
+        return strongerBattler;
     }
 
     @Override
@@ -151,7 +203,7 @@ public class Model implements IModel {
 
     @Override
     public List<ICreature> GetSelectedCreatures() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return selectedCreatures;
     }
 
     @Override
@@ -161,12 +213,12 @@ public class Model implements IModel {
 
     @Override
     public boolean WhiteWin() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return(blacksAlive == 0);
     }
 
     @Override
     public boolean BlackWin() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return(whitesAlive == 0);
     }
 
 }
