@@ -10,11 +10,12 @@ public class LDomovoy extends ACreature {
         name = "Домовой";
         description = "Незаметный, но незаменимый боец домашнего фронта";
         strenght = 2;
-        imageFileName = "LDomovoy.jpeg";
+        imageFileName = "LDomovoy.jpg";
+        iconFileName = "";
     }
 
     @Override
     public ICreature GetOtherForm() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new HDomovoy();
     }
 }

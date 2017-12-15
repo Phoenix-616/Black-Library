@@ -13,13 +13,14 @@ public class HRusalka extends ACreature {
 
     public HRusalka() {
         name = "Водяная Дева";
-        description = "Повелительница рек, озёр, морей и океанов. Однажды преступив ей дорогу, вы можете забыть о водоёмах.";????????????????????????????????????????????????????????????????????????
+        description = "Повелительница рек, озёр, морей и океанов. Однажды преступив ей дорогу, вы можете забыть о водоёмах.";
         strenght = 7;
-        imageFileName = "HRusalka.jpeg";
+        imageFileName = "HRusalka.jpg";
+        iconFileName = "";
     }
 
     @Override
     public ICreature GetOtherForm() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new LRusalka();
     }
 }
