@@ -12,7 +12,7 @@ public class HVolkolak extends ACreature {
         strenght = 11;
         imageFileName = "HVolkolak.jpg";
         iconFileNameBlack = "HVolkolak.png";
-        iconFileNameWhite = "HVolkolak.png";
+        iconFileNameWhite = "WHVolkolak.png";
     }
 
     @Override

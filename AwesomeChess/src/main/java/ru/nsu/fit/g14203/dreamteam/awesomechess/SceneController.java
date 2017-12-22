@@ -15,11 +15,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.ICreature;
@@ -66,7 +68,6 @@ public class SceneController implements Initializable {
             Node obj = (Node) event.getTarget();
             int x = GridPane.getColumnIndex(obj);
             int y = 7 - GridPane.getRowIndex(obj);
-            System.out.println( x+" "+y);
             model.cellClicked(new FieldCoord(x, y));
             showField();
             showCreatures();
@@ -80,7 +81,7 @@ public class SceneController implements Initializable {
         }
 
     }
-    
+
     private void updateLogs() {
         List<String> l = model.getLog();
         for (String str : l) {
@@ -90,6 +91,10 @@ public class SceneController implements Initializable {
 
     private void showCreatures() {
         List<ICreature> l = model.getSelectedCreatures();
+        System.out.println(l.size());
+        for (ICreature cr : l) {
+            System.out.println(cr);
+        }
         ICreature c;
         try {
             c = l.get(1);
@@ -133,7 +138,7 @@ public class SceneController implements Initializable {
             for (int k = 0; k < 8; k++) {
                 int j = 7 - k;
                 try {
-                    String imgName = "resources/" + cur[i][k].getFigure().getCreature().getIconFileNameBlack();
+                    String imgName = "resources/" + cur[i][k].getFigure().getIconFileName();
                     Image img = new Image(new File(imgName).toURI().toString());
                     FieldBack[i][j].setImage(img);
                 } catch (Exception ex) {
@@ -150,17 +155,17 @@ public class SceneController implements Initializable {
             for (int k = 0; k < 8; k++) {
                 int j = 7 - k;
                 FieldBack[i][j] = new ImageView();
-                FieldBack[i][j].setFitWidth(50);
-                FieldBack[i][j].setFitHeight(50);
                 FieldBack[i][j].setOnMouseClicked(new ActionHand());
-                Rectangle rect = new Rectangle(50, 50);
+                FieldBack[i][j].fitHeightProperty().bind(MainField.heightProperty().divide(8));
+                FieldBack[i][j].fitWidthProperty().bind(MainField.widthProperty().divide(8));
+                StackPane pane = new StackPane();
                 if (white) {
-                    rect.setFill(Color.WHITE);
+                    pane.setStyle("-fx-background-color: grey;");
                 } else {
-                    rect.setFill(Color.BROWN);
+                    pane.setStyle("-fx-background-color: darkgrey;");
                 }
-                rect.setOnMouseClicked(new ActionHand());
-                MainField.add(rect, i, j);
+                pane.setOnMouseClicked(new ActionHand());
+                MainField.add(pane, i, j);
                 MainField.add(FieldBack[i][j], i, j);
                 white = !white;
             }
@@ -170,6 +175,8 @@ public class SceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        MainField.minWidthProperty().bind(((GridPane)MainField.getParent()).widthProperty());
+        MainField.minHeightProperty().bind(((GridPane)MainField.getParent()).widthProperty());
         model = new Model();
         initFieldBack();
         showField();
@@ -177,14 +184,38 @@ public class SceneController implements Initializable {
 
     @FXML
     private void NewGamePressed(ActionEvent event) {
+        model = new Model();
+        showField();
+        showCreatures();
+        LogTextArea.setText("");
     }
 
     @FXML
     private void AboutPressed(ActionEvent event) {
+        showAlert("Об игре", null, "    Игра AwesomeChess представляет из себя модифицированный вариант шахмат. Игра рассчитана на 2х игроков и проводится на одном компьютере. Есть общее шахматное поле. Каждый игрок имеет свой набор фигур - белых или черных. Белые ходят первыми. Все фигуры кроме пешек ходят в соответствии с правилами классических шахмат. Пешки изначально могут ходить только на один шаг вперед, но достигая противоположного края доски, превращаются в ферзя(королеву).\n" +
+"    Каждая фигура олицетворяет некое существо из славянской мифологии и имеет карточку, на которой указано имя существа, его сила, изображение, а также дано небольшое описание. Когда игрок выбирает свою фигуру, карточка соответствующего существа отображается в области справа. Когда он кликает на фигуру противника, которую хочет (и может!) срубить, в области справа также отображается карточка вражеского существа. Между ними происходит \"битва\", исход которой заранее не предопределен: победить может как \"атакующее\" существо, так и \"обороняющееся\". Чем выше сила существа, тем выше его шансы на победу. Это делает исход игры абсолютно не предсказуемым.\n" +
+"    Дополнительный хаос вносит наличие зловредного бога, который в начале каждого хода (кроме первого) совершает \"шалость\" на случайно выбранной клетке: если на ней стояло существо, то бог либо меняет его форму (высшая ↔ низшая), либо радостно его убивает. Убийство совершается не чаще, чем раз в 5 ходов. Что касается форм - все существа находятся в низшей форме в начале игры. Высшая форма отличается повышенным показателем силы. Иконка фигуры существа в высшей форме выделяется цветным контуром.\n" +
+"    Победа в отличие от классических шахмат достигается тогда, когда все фигуры противника повержены.\n" +
+"    Вся информация по игровому процессу описывается в области под шахматным полем - чей сейчас ход, кто куда сходил, божественные влияния, исходы битв, уведомление об окончании игры.\n" +
+"    Новую игру можно начать, нажав соответствующую кнопку на панели меню. Там же можно ознакомиться с правилами игры и информацией о создателях приложения.\n" +
+"    Наслаждайтесь. И да победит... любимчик бога рандома!\n");
     }
 
     @FXML
     private void CopyrightsPressed(ActionEvent event) {
+        showAlert("Копирайт", "Разработчики", "Дробот Алёна"
+                + "\nТрофимова Екатерина"
+                + "\nНайденов Александр"
+                + "\nГруппа \"DreamTeam\"(14203)");
+    }
+
+    private void showAlert(String tit, String header, String content) {
+        Alert al = new Alert(Alert.AlertType.INFORMATION);
+        al.setTitle(tit);
+        al.setHeaderText(header);
+        al.setContentText(content);
+        al.getDialogPane().setMinWidth(500);
+        al.showAndWait();
     }
 
 }

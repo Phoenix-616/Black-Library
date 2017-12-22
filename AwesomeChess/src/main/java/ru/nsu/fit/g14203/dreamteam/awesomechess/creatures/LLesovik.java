@@ -12,7 +12,7 @@ public class LLesovik extends ACreature {
         strenght = 7;
         imageFileName = "LLesovik.jpg";
         iconFileNameBlack = "LLesovik.png";
-        iconFileNameWhite = "LLesovik.png";
+        iconFileNameWhite = "WLLesovik.png";
     }
 
     @Override

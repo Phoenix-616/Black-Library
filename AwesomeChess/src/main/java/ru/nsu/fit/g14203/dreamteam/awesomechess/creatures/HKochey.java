@@ -12,7 +12,7 @@ public class HKochey extends ACreature {
         strenght = 13;
         imageFileName = "HKochey.jpg";
         iconFileNameBlack = "HKochey.png";
-        iconFileNameWhite = "HKochey.png";
+        iconFileNameWhite = "WHKochey.png";
     }
 
     @Override
