@@ -34,9 +34,6 @@ public abstract class ACreature implements ICreature {
     public String getIconFileNameWhite(){return iconFileNameWhite; }
 
     @Override
-    public abstract ICreature getOtherForm();
-
-    @Override
     public String getImgFileName() {
         return imageFileName;
     }
