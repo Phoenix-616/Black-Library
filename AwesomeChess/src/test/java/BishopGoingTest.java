@@ -1,5 +1,6 @@
 import org.junit.Test;
-import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LBabaYaga;
+import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LLesovik;
+import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LRusalka;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LVolkolak;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.FieldCoord;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.Figure;
@@ -12,29 +13,29 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Alena on 22.12.2017.
  */
-public class RookGoingTest {
-    Figure figure = new Figure(new LVolkolak(), StepRules.FigureType.ROOK, Figure.FigureColor.WHITE);
+public class BishopGoingTest {
+    Figure figure = new Figure(new LLesovik(), StepRules.FigureType.BISHOP, Figure.FigureColor.WHITE);
     Model model = new Model();
 
     @Test
-    public void upTest() {
+    public void upRightTest() {
         Model model = new Model();
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 5), model)); // вверх
+        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(5, 5), model)); // вверх вправо
     }
 
     @Test
-    public void downTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 2), model)); // вниз
+    public void upLeftTest() {
+        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 2), model)); // вверх влево
     }
 
     @Test
-    public void rightTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(7, 3), model)); // вправо
+    public void downRightTest() {
+        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(7, 3), model)); // вниз вправо
     }
 
     @Test
-    public void leftTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(0, 3), model)); // влево
+    public void downLeftTest() {
+        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(0, 3), model)); // вниз влево
     }
 
     @Test
