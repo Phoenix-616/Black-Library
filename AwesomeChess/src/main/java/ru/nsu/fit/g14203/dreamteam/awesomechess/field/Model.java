@@ -27,12 +27,12 @@ public class Model implements IModel {
     private boolean whiteTurn;
 
     private FieldCoord SelectedFigCoords = null;
-
+    
     LinkedList<ICreature> selectedCreatures = new LinkedList<>();
     LinkedList<String> log = new LinkedList<>();
 
     Random randomizer = new Random();
-
+    
     int whitesAlive = 12;
     int blacksAlive = 12;
 
@@ -116,6 +116,12 @@ public class Model implements IModel {
             return;
         }
 
+        if(whiteTurn){
+            selectedCreatures.addLast(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+        }else{
+            selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+        }
+        
         //если фигура ...TYPE может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
         if (StepRules.canFigureGo(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE, SelectedFigCoords, coords, this)) {
 
@@ -140,7 +146,6 @@ public class Model implements IModel {
                     winner;
 
             winner = battle(firstBattler, secondBattler);
-
             //атакующую фигуру убираем со старого места и...
             chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].setFigure(null);
             //победителя помещаем на место атаки
@@ -214,7 +219,6 @@ public class Model implements IModel {
 
         String strongerColor;
         String weakerColor;
-
         int minStrength = min(fistStrength, secondStrength);
         Figure weakerBattler;
         Figure strongerBattler;
@@ -302,6 +306,7 @@ public class Model implements IModel {
     @Override
     public boolean BlackWin() {
         return (whitesAlive == 0);
+
     }
 
 }
