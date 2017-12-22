@@ -21,13 +21,13 @@ import java.util.Random;
             }
         }
         
-        public static enum JokeType{
+        public enum JokeType{
             SWITCHLVL, KILLKINDLY 
         }
         
-        private final int ALAHBABAHINTERVAL = 5;
+        private final int executionInterval = 5;
       
-        private int remainBeforeAlahBabah = ALAHBABAHINTERVAL;
+        private int remainBeforeExecution = executionInterval;
       
         private Random rand = new Random();
         
@@ -39,12 +39,12 @@ import java.util.Random;
             
             FieldCoord target = new FieldCoord(rand.nextInt(8), rand.nextInt(8));
             
-            if(remainBeforeAlahBabah == 0){
-                remainBeforeAlahBabah = ALAHBABAHINTERVAL;
+            if(remainBeforeExecution == 0){
+                remainBeforeExecution = executionInterval;
                 return new Joke(target, JokeType.KILLKINDLY);
             }
             
-            remainBeforeAlahBabah--;
+            remainBeforeExecution--;
             return new Joke(target, JokeType.SWITCHLVL);
         }
     
