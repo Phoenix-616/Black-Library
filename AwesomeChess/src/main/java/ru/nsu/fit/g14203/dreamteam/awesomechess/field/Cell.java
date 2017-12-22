@@ -1,6 +1,5 @@
 package ru.nsu.fit.g14203.dreamteam.awesomechess.field;
 
-import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.ICreature;
 
 /**
  *
