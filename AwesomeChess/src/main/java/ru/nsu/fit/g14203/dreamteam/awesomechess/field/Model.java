@@ -80,8 +80,8 @@ public class Model implements IModel {
         chessBoard[2][7] = new Cell(new Figure(new LLesovik(), FigureType.BISHOP, FigureColor.BLACK));
         chessBoard[5][7] = new Cell(new Figure(new LLesovik(), FigureType.BISHOP, FigureColor.BLACK));
 
-        chessBoard[4][0] = new Cell(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
-        chessBoard[3][0] = new Cell(new Figure(new LKochey(), FigureType.KING, FigureColor.BLACK));
+        chessBoard[4][7] = new Cell(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
+        chessBoard[3][7] = new Cell(new Figure(new LKochey(), FigureType.KING, FigureColor.BLACK));
     }
 
     @Override
@@ -116,11 +116,6 @@ public class Model implements IModel {
             return;
         }
 
-        if(whiteTurn){
-            selectedCreatures.addLast(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-        }else{
-            selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-        }
         
         //если фигура ...TYPE может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
         if (StepRules.canFigureGo(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE, SelectedFigCoords, coords, this)) {

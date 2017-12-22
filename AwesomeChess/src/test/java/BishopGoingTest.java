@@ -72,5 +72,4 @@ public class BishopGoingTest {
     public void falseWayTest6() {
         assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(0, 1), model)); // ход неверный
     }
-
 }
