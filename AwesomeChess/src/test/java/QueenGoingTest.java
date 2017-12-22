@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LBabaYaga;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.FieldCoord;
@@ -11,9 +12,14 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Alena on 22.12.2017.
  */
-public class QueenGoingTest {
+public class QueenGoingTest extends FigureGoingTest{
     Figure figure = new Figure(new LBabaYaga(), StepRules.FigureType.QUEEN, Figure.FigureColor.WHITE);
-    Model model = new Model();
+
+    @Before
+    public void prepare(){
+        chessBoard[3][3].setFigure(figure);
+        setCell();
+    }
 
     @Test
     public void upLeftTest() {
