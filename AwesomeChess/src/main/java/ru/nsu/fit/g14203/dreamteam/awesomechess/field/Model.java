@@ -235,15 +235,18 @@ public class Model implements IModel {
             case SWITCHLVL:
 
                 if (targetFigure == null) {
-                    log.add(demiurgLogMark + demiurg.name + " махнул рукой, и на клетке (" + joke.where.X + "," + joke.where.Y + ") появились зловредные пикси. Однако цели для своей проказы они не нашли... " + demiurgLogMark);
+                    log.add(demiurgLogMark + demiurg.name + " махнул рукой, и на клетке (" + 
+                            joke.where.X + "," + joke.where.Y + ") появились зловредные маленькие пикси." + 
+                            " Однако цели для своей проказы они не нашли... " + demiurgLogMark);
                     return;
                 }
 
                 String oldCreatureName = targetFigure.getCreature().getName();
 
                 targetFigure.setCreature(targetFigure.getCreature().getOtherForm());
-                log.add(demiurgLogMark + demiurg.name + " пошалил: на клетке (" + joke.where.X + "," + joke.where.Y + ") клубиться розовый туман...");
-                log.add("Туман рассеивается и на месте, где только что стоял(а) " + oldCreatureName + ", оказывается " + targetFigure.getCreature().getName() + " " + demiurgLogMark);
+                log.add(demiurgLogMark + demiurg.name + " пошалил: на клетке (" + joke.where.X + "," + joke.where.Y + "), "
+                        + "где только что стоял(а) " + oldCreatureName + ", клубиться розовый туман...");
+                log.add("Спустя пару минут туман рассеивается - на клетке теперь стоит " + targetFigure.getCreature().getName() + " " + demiurgLogMark);
                 return;
 
             case KILLKINDLY:
@@ -257,7 +260,7 @@ public class Model implements IModel {
                 String deadManColor = (FigureColor.WHITE == targetFigure.COLOR ? w : b);
                 chessBoard[joke.where.X][joke.where.Y].setFigure(null);
                 log.add(demiurgLogMark + demiurg.name + " злобно хихикает: на клетку (" + joke.where.X + "," + joke.where.Y + ") только что упал здоровенный валун");
-                log.add(deadManColor + " " + deadManName + ", который(ая) там стоял(а) не выжил(а)... " + demiurgLogMark);
+                log.add(deadManColor + deadManName + " мертв(а)... " + demiurgLogMark);
         }
     }
 
