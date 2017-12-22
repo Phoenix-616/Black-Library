@@ -91,10 +91,6 @@ public class SceneController implements Initializable {
 
     private void showCreatures() {
         List<ICreature> l = model.getSelectedCreatures();
-        System.out.println(l.size());
-        for (ICreature cr : l) {
-            System.out.println(cr);
-        }
         ICreature c;
         try {
             c = l.get(1);
