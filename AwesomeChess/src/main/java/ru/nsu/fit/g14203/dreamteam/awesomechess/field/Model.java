@@ -96,14 +96,21 @@ public class Model implements IModel {
                 SelectedFigCoords = new FieldCoord(coords.X, coords.Y);
                 selectedCreatures = new LinkedList<>();
                 selectedCreatures.add(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-                log.add((whiteTurn?"Белый(ая)":"Черный(ая)") + selectedCreatures.getFirst().GetName() + "ожидает приказа главнокомандующего.");
+                
+                //строгий порядок записи белого и черного существа в список
+                if (whiteTurn) {
+                    selectedCreatures.addLast(null);
+                } else {
+                    selectedCreatures.addFirst(null);
+                }
+                log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().GetName() + "ожидает приказа главнокомандующего.");
             }
             return;
         }
 
         //если дважды ткнули в одну клетку - выбор фигуры снимается
         if (SelectedFigCoords.equalsTo(coords)) {
-            log.add((whiteTurn?"Белый(ая)":"Черный(ая)") + selectedCreatures.getFirst().GetName() + "отправлен во временное увольнение");
+            log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().GetName() + "отправлен во временное увольнение");
             SelectedFigCoords = null;
             selectedCreatures = new LinkedList<>();
             return;
@@ -126,7 +133,7 @@ public class Model implements IModel {
             } else {
                 selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
             }
-            
+
             //и отправляем бойцов на арену
             Figure firstBattler = chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure(),
                     secondBattler = chessBoard[coords.X][coords.Y].getFigure(),
@@ -151,8 +158,8 @@ public class Model implements IModel {
     //перемещает фигуру из клетки с координатами from в клетку с координатами to
     private void moveFigure(FieldCoord from, FieldCoord to) {
         String creatureName = chessBoard[from.X][from.Y].getFigure().getCreature().GetName();
-        String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR==FigureColor.WHITE?"Белый(ая)" : "Черный(ая)";
-        
+        String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)";
+
         chessBoard[to.X][to.Y].setFigure(chessBoard[from.X][from.Y].getFigure());
         chessBoard[from.X][from.Y].setFigure(null);
 
@@ -226,13 +233,13 @@ public class Model implements IModel {
         strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? "белый(ая)" : "черный(ая)");
 
         if (randomizer.nextInt(fistStrength + secondStrength) < minStrength) {
-            log.add(strongerColor + strongerBattler.getCreature().GetName() + "замешкался(лась) и потерпел(а) поражение, а " + 
-                    weakerColor + weakerBattler.getCreature().GetName() + "с видом победителя оглядывает поле сражения.");
+            log.add(strongerColor + strongerBattler.getCreature().GetName() + "замешкался(лась) и потерпел(а) поражение, а "
+                    + weakerColor + weakerBattler.getCreature().GetName() + "с видом победителя оглядывает поле сражения.");
             return weakerBattler;
         }
-        log.add(strongerColor + strongerBattler.getCreature().GetName() + "играючи одерживает победу; " + 
-                    weakerColor + weakerBattler.getCreature().GetName() + "покинул(а) этот бренный мир...");
-            
+        log.add(strongerColor + strongerBattler.getCreature().GetName() + "играючи одерживает победу; "
+                + weakerColor + weakerBattler.getCreature().GetName() + "покинул(а) этот бренный мир...");
+
         return strongerBattler;
     }
 
@@ -274,6 +281,12 @@ public class Model implements IModel {
     @Override
     public List<ICreature> GetSelectedCreatures() {
         return selectedCreatures;
+    }
+
+    public List<String> GetLog() {
+        LinkedList<String> tempLog = new LinkedList<>(log);
+        log = new LinkedList<String>();
+        return tempLog;
     }
 
     @Override
