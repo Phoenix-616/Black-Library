@@ -12,28 +12,28 @@ public abstract class ACreature implements ICreature {
     protected String iconFileName;
 
     @Override
-    public String GetName() {
+    public String getName() {
         return name ;
     }
 
     @Override
-    public String GetDescription() {
+    public String getDescription() {
         return description;
     }
 
     @Override
-    public int GetStrength() {
+    public int getStrength() {
         return strenght;
     }
 
     @Override
-    public String GetIconFileName(){return iconFileName; }
+    public String getIconFileName(){return iconFileName; }
 
     @Override
-    public abstract ICreature GetOtherForm();
+    public abstract ICreature getOtherForm();
 
     @Override
-    public String GetImgFileName() {
+    public String getImgFileName() {
         return imageFileName;
     }
 }

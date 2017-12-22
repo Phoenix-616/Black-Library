@@ -15,7 +15,7 @@ public class HDomovoy extends ACreature {
     }
 
     @Override
-    public ICreature GetOtherForm() {
+    public ICreature getOtherForm() {
         return new LDomovoy();
     }
 }
