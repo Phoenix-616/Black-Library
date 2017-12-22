@@ -11,11 +11,11 @@ public class LLesovik extends ACreature {
                 "Добрым путникам помогает, злых обкидывает мухоморами и снежком";
         strenght = 7;
         imageFileName = "LLesovik.jpg";
-        iconFileName = "";
+        iconFileName = "LLesovik.png";
     }
 
     @Override
-    public ICreature GetOtherForm() {
+    public ICreature getOtherForm() {
         return new HLesovik();
     }
 }

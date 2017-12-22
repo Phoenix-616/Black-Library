@@ -11,11 +11,11 @@ public class HDomovoy extends ACreature {
         description = "Говорят, что настоящий хозяин дома не человек, а его кот. Боюсь, у нас для него плохие новости...";
         strenght = 4;
         imageFileName = "HDomovoy.jpg";
-        iconFileName = "";
+        iconFileName = "HDomovoy.png";
     }
 
     @Override
-    public ICreature GetOtherForm() {
+    public ICreature getOtherForm() {
         return new LDomovoy();
     }
 }

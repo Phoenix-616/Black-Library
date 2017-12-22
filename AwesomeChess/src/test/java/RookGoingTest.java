@@ -18,7 +18,6 @@ public class RookGoingTest {
 
     @Test
     public void upTest() {
-        Model model = new Model();
         assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 5), model)); // вверх
     }
 

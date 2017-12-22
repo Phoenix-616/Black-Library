@@ -16,11 +16,11 @@ public class HRusalka extends ACreature {
         description = "Повелительница рек, озёр, морей и океанов. Однажды преступив ей дорогу, вы можете забыть о водоёмах.";
         strenght = 7;
         imageFileName = "HRusalka.jpg";
-        iconFileName = "";
+        iconFileName = "HRusalka.png";
     }
 
     @Override
-    public ICreature GetOtherForm() {
+    public ICreature getOtherForm() {
         return new LRusalka();
     }
 }

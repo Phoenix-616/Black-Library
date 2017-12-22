@@ -11,15 +11,15 @@ package ru.nsu.fit.g14203.dreamteam.awesomechess.creatures;
  */
 public interface ICreature {
     //Получить имя
-    String GetName();
+    String getName();
     //Получить описание
-    String GetDescription();
+    String getDescription();
     //Получить силу
-    int GetStrength();
+    int getStrength();
     //Получить объект альтернативной формы
-    ICreature GetOtherForm();
+    ICreature getOtherForm();
     //Получить имя файла изображения
-    String GetImgFileName();
+    String getImgFileName();
     //Получить имя иконки
-    String GetIconFileName();
+    String getIconFileName();
 }

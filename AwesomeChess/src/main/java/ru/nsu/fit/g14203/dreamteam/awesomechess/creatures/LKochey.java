@@ -11,11 +11,11 @@ public class LKochey extends ACreature {
         description = "Ужас, летящий на крыльях ночи и убиваемый исключительно иглой из яйца из утки из зайца, что лежит в свинцом обитом сундуке";
         strenght = 9;
         imageFileName = "LKochey.jpg";
-        iconFileName = "";
+        iconFileName = "LKochey.png";
     }
 
     @Override
-    public ICreature GetOtherForm() {
+    public ICreature getOtherForm() {
         return new HKochey();
     }
 }
