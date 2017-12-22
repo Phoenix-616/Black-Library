@@ -6,6 +6,7 @@ import ru.nsu.fit.g14203.dreamteam.awesomechess.field.Figure;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.Model;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -16,24 +17,34 @@ public class RookGoingTest {
     Model model = new Model();
 
     @Test
-    public void UpTest() {
+    public void upTest() {
         Model model = new Model();
         assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 5), model)); // вверх
     }
 
     @Test
-    public void DownTest() {
+    public void downTest() {
         assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 2), model)); // вниз
     }
 
     @Test
-    public void RightTest() {
+    public void rightTest() {
         assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(7, 3), model)); // вправо
     }
 
     @Test
-    public void LeftTest() {
+    public void leftTest() {
         assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(0, 3), model)); // влево
+    }
+
+    @Test
+    public void figureOnWayTest() {
+        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 0), model)); // на пути фигура
+    }
+
+    @Test
+    public void falseWayTest() {
+        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(4, 4), model)); // по диагонали
     }
 
 }

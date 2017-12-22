@@ -15,7 +15,7 @@ public class HLesovik extends ACreature {
     }
 
     @Override
-    public ICreature GetOtherForm() {
+    public ICreature getOtherForm() {
         return new LLesovik();
     }
 }
