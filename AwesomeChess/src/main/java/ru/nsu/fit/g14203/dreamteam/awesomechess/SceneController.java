@@ -134,7 +134,7 @@ public class SceneController implements Initializable {
                     String imgName = "resources/" + cur[i][k].getFigure().getCreature().GetIconFileName();
                     Image img = new Image(new File(imgName).toURI().toString());
                     FieldBack[i][j].setImage(img);
-                } catch (NullPointerException ex) {
+                } catch (Exception ex) {
                     FieldBack[i][j].setImage(null);
                 }
             }
