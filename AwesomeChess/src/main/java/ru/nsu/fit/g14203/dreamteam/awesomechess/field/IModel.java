@@ -14,15 +14,18 @@ import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.ICreature;
  */
 public interface IModel {
     //Координаты нажатой модели
-    public void CellClicked(FieldCoord coords);
+    public void cellClicked(FieldCoord coords);
     //Текущее состояние поля
-    public Cell[][] GetState();
+    public Cell[][] getState();
     //Карточки для отображения, null или пустой список, если нечего отображать
     //Первая - белое существо, вторая - черное
-    public List<ICreature> GetSelectedCreatures();
+    public List<ICreature> getSelectedCreatures();
     //Определитель хода
-    public boolean WhiteGoing();
+    public boolean whiteGoing();
     //Победа
-    public boolean WhiteWin();
-    public boolean BlackWin();
+    public boolean whiteWin();
+    public boolean blackWin();
+    //Текстовые логи
+    public List<String> getLog();
+    
 }
