@@ -187,7 +187,7 @@ public class Model implements IModel {
         chessBoard[to.X][to.Y].setFigure(chessBoard[from.X][from.Y].getFigure());
         chessBoard[from.X][from.Y].setFigure(null);
 
-        log.add(playerLogMark + figureColor + " " + creatureName + " переместился(лась) из клетки (" + from.X + "," + from.Y + ") в клетку (" + from.X + "," + from.Y + ").");
+        log.add(playerLogMark + figureColor + " " + creatureName + " переместился(лась) из клетки (" + from.X + "," + from.Y + ") в клетку (" + to.X + "," + to.Y + ").");
           
         if (chessBoard[to.X][to.Y].getFigure().TYPE == FigureType.PAWN) 
             checkPawnTransform(to);
@@ -248,7 +248,7 @@ public class Model implements IModel {
 
                 String deadManName = targetFigure.getCreature().getName();
                 String deadManColor = (FigureColor.WHITE == targetFigure.COLOR ? "Белый(ая) " : "Черный(ая) ");
-                targetFigure.setCreature(null);
+                chessBoard[joke.where.X][joke.where.Y].setFigure(null);
                 log.add(demiurgLogMark + demiurg.name + " злобно хихикает: на клетку (" + joke.where.X + "," + joke.where.Y + ") только что упал здоровенный валун");
                 log.add(deadManColor + " " + deadManName + ", который(ая) там стоял(а) не выжил(а)... " + demiurgLogMark);
         }
