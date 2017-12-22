@@ -132,7 +132,7 @@ public class SceneController implements Initializable {
             for (int k = 0; k < 8; k++) {
                 int j = 7 - k;
                 try {
-                    String imgName = "resources/" + cur[i][k].getFigure().getCreature().getIconFileName();
+                    String imgName = "resources/" + cur[i][k].getFigure().getCreature().getIconFileNameBlack();
                     Image img = new Image(new File(imgName).toURI().toString());
                     FieldBack[i][j].setImage(img);
                 } catch (Exception ex) {
