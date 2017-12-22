@@ -92,9 +92,9 @@ public class SceneController implements Initializable {
         ICreature c;
         try {
             c = l.get(0);
-            NameChar1.setText(c.GetName());
-            DescChar1.setText(c.GetDescription());
-            String imgName = "resources/" + c.GetImgFileName();
+            NameChar1.setText(c.getName());
+            DescChar1.setText(c.getDescription());
+            String imgName = "resources/" + c.getImgFileName();
             Image img = new Image(new File(imgName).toURI().toString());
             ImgChar1.setImage(img);
         } catch (Exception ex) {
@@ -104,9 +104,9 @@ public class SceneController implements Initializable {
         }
         try {
             c = l.get(1);
-            NameChar2.setText(c.GetName());
-            DescChar2.setText(c.GetDescription());
-            String imgName = "resources/" + c.GetImgFileName();
+            NameChar2.setText(c.getName());
+            DescChar2.setText(c.getDescription());
+            String imgName = "resources/" + c.getImgFileName();
             Image img = new Image(new File(imgName).toURI().toString());
             ImgChar2.setImage(img);
         } catch (Exception ex) {
@@ -131,7 +131,7 @@ public class SceneController implements Initializable {
             for (int k = 0; k < 8; k++) {
                 int j = 7 - k;
                 try {
-                    String imgName = "resources/" + cur[i][k].getFigure().getCreature().GetIconFileName();
+                    String imgName = "resources/" + cur[i][k].getFigure().getCreature().getIconFileName();
                     Image img = new Image(new File(imgName).toURI().toString());
                     FieldBack[i][j].setImage(img);
                 } catch (Exception ex) {
