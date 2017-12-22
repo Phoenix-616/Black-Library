@@ -43,6 +43,10 @@ public class Model implements IModel {
         chessBoard = new Cell[8][8];
         renovate();
     }
+    
+    public Model(Cell[][] board) {
+        chessBoard = board;
+    }
 
     private void renovate() {
 
@@ -138,9 +142,9 @@ public class Model implements IModel {
 
             //если не пуста добавляем противника в список выделенных существ...
             if (whiteTurn) {
-                selectedCreatures.addLast(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+                selectedCreatures.set(1, chessBoard[coords.X][coords.Y].getFigure().getCreature());
             } else {
-                selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+                selectedCreatures.set(0, chessBoard[coords.X][coords.Y].getFigure().getCreature());
             }
 
             //и отправляем бойцов на арену
@@ -157,7 +161,6 @@ public class Model implements IModel {
             log.add("== БИТВА ОКОНЧЕНА ==");
 
             processBattleResults(winner);
-
             SelectedFigCoords = null;
         } else {
             log.add(playerLogMark + (whiteTurn ? ("Белый(ая) " + selectedCreatures.getFirst().getName()) : ("Черный(ая) " + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
@@ -173,6 +176,7 @@ public class Model implements IModel {
 
     //перемещает фигуру из клетки с координатами from в клетку с координатами to
     private void moveFigure(FieldCoord from, FieldCoord to) {
+
         String creatureName = chessBoard[from.X][from.Y].getFigure().getCreature().getName();
         String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)";
 
@@ -180,7 +184,29 @@ public class Model implements IModel {
         chessBoard[from.X][from.Y].setFigure(null);
 
         log.add(playerLogMark + figureColor + " " + creatureName + " переместился(лась) из клетки (" + from.X + "," + from.Y + ") в клетку (" + from.X + "," + from.Y + ").");
+
     }
+
+//    private void checkPawn(FieldCoord to) {
+//
+//        if (chessBoard[to.X][to.Y].getFigure().TYPE == FigureType.PAWN) {
+//            if (chessBoard[to.X][to.Y].getFigure().COLOR == FigureColor.WHITE && to.Y == 7) {
+//                chessBoard[to.X][to.Y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.WHITE));
+//                log.add(playerLogMark + "Предприимчивый " + figureColor + " " + creatureName + " достиг просветления. "
+//                        + "На поле новая " + figureColor + " " + chessBoard[to.X][to.Y].getFigure().getCreature().getName());
+//                return;
+//            }
+//
+//            if (chessBoard[to.X][to.Y].getFigure().COLOR == FigureColor.BLACK && to.Y == 0) {
+//                chessBoard[to.X][to.Y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
+//                log.add(playerLogMark + "Предприимчивый " + figureColor + " " + creatureName + " достиг просветления. "
+//                        + "На поле новая " + figureColor + " " + chessBoard[to.X][to.Y].getFigure().getCreature().getName());
+//                return;
+//            }
+//
+//        }
+//
+//    }
 
     //смена хода (черные->белые или белые->черные) и шалость демиурга
     private void newTurn() {
