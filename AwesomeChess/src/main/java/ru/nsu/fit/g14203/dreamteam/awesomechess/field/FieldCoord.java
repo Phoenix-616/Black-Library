@@ -18,7 +18,7 @@ public class FieldCoord {
         Y = o.Y;
     }
     
-    public boolean equals(FieldCoord o){
+    public boolean equalsTo(FieldCoord o){
         return (this.X == o.X) && (this.Y == o.Y);    
     }
 }
