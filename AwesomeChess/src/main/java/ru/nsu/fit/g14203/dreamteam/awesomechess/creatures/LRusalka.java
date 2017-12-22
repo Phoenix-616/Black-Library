@@ -12,7 +12,7 @@ public class LRusalka extends ACreature {
         strenght = 5;
         imageFileName = "LRusalka.jpg";
         iconFileNameBlack = "LRusalka.png";
-        iconFileNameWhite = "LRusalka.png";
+        iconFileNameWhite = "WLRusalka.png";
     }
 
     @Override
