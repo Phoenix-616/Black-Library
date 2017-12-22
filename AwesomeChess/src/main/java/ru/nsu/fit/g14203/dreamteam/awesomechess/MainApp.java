@@ -17,10 +17,10 @@ public class MainApp extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
         
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle("Awesome Chess");
         stage.setScene(scene);
-        stage.minWidthProperty().bind(scene.heightProperty());
-        stage.minHeightProperty().bind(scene.widthProperty());
+        //stage.minWidthProperty().bind(scene.heightProperty());
+        //stage.minHeightProperty().bind(scene.widthProperty());
         stage.show();
     }
 

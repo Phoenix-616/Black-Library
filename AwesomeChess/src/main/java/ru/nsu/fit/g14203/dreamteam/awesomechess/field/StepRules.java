@@ -22,6 +22,11 @@ public class StepRules {
     }
 
     public static boolean canFigureGo(FigureType figureType, FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
+        if(model.getState()[targetCoord.X][targetCoord.Y].getFigure() != null) {
+            if (!checkColor(figureCoord, targetCoord, model)) {
+                return false;
+            }
+        }
         if (figureType == FigureType.KING) {
             return canKingGo(figureCoord, targetCoord);
         } else if (figureType == FigureType.QUEEN) {
@@ -34,6 +39,13 @@ public class StepRules {
             return canBishopGo(figureCoord, targetCoord, model);
         } else if (figureType == FigureType.PAWN) {
             return canPawnGo(figureCoord, targetCoord, model);
+        }
+        return false;
+    }
+
+    private static boolean checkColor(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
+        if (model.getState()[figureCoord.X][figureCoord.Y].getFigure().COLOR != model.getState()[targetCoord.X][targetCoord.Y].getFigure().COLOR) {
+            return true;
         }
         return false;
     }
@@ -55,7 +67,6 @@ public class StepRules {
                 return true;
             }
         }
-
         return false;
     }
 

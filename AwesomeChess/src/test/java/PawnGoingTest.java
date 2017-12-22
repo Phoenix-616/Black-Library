@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LDomovoy;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LKochey;
@@ -12,9 +13,15 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Alena on 22.12.2017.
  */
-public class PawnGoingTest {
+public class PawnGoingTest extends FigureGoingTest{
     Figure figure = new Figure(new LDomovoy(), StepRules.FigureType.PAWN, Figure.FigureColor.WHITE);
-    Model model = new Model();
+
+    @Before
+    public void prepare(){
+        chessBoard[3][3].setFigure(figure);
+        chessBoard[3][5].setFigure(figure);
+        setCell();
+    }
 
     @Test
     public void stepTest() {
