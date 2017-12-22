@@ -126,15 +126,12 @@ public class StepRules {
     }
 
     private static boolean canKnightGo(FieldCoord figureCoord, FieldCoord targetCoord) {
-        if(
+        return(
            targetCoord.X - figureCoord.X == 2 && (targetCoord.Y - figureCoord.Y == 1 || targetCoord.Y - figureCoord.Y == -1) ||  //проверили правые Гшки
            targetCoord.X - figureCoord.X == -2 && (targetCoord.Y - figureCoord.Y == 1 || targetCoord.Y - figureCoord.Y == -1) || //проверили левые Гшки
            targetCoord.Y - figureCoord.Y == 2 && (targetCoord.X - figureCoord.X == 1 || targetCoord.X - figureCoord.X == -1) || //проверили верхние Гшки
            targetCoord.Y - figureCoord.Y == -2 && (targetCoord.X - figureCoord.X == 1 || targetCoord.X - figureCoord.X == -1) //проверили нижние Гшки
-           ){
-            return true;
-        }
-        return false;
+        );
     }
 
     private static boolean canBishopGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
