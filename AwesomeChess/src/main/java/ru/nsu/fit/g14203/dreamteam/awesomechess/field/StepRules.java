@@ -204,7 +204,7 @@ public class StepRules {
     private static boolean canPawnGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
         int y0;  //y0 - координата той фигуры, которая стоит ниже
         int y1;
-        if (model.WhiteGoing()) {
+        if (model.whiteGoing()) {
             y0 = figureCoord.Y;
             y1 = targetCoord.Y;
         } else {

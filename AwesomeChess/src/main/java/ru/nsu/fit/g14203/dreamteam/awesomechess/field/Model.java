@@ -85,7 +85,7 @@ public class Model implements IModel {
     }
 
     @Override
-    public void CellClicked(FieldCoord coords) {
+    public void cellClicked(FieldCoord coords) {
 
         //если фигура еще не была выделена и выбранная клетка не пуста, то...
         if (SelectedFigCoords == null && !cellIsEmpty(coords)) {
@@ -270,7 +270,7 @@ public class Model implements IModel {
     }
 
     @Override
-    public Cell[][] GetState() {
+    public Cell[][] getState() {
 
         Cell[][] chessBoardCopy = new Cell[8][8];
         for (int i = 0; i < 8; i++) {
@@ -283,28 +283,28 @@ public class Model implements IModel {
     }
 
     @Override
-    public List<ICreature> GetSelectedCreatures() {
+    public List<ICreature> getSelectedCreatures() {
         return selectedCreatures;
     }
 
-    public List<String> GetLog() {
+    public List<String> getLog() {
         LinkedList<String> tempLog = new LinkedList<>(log);
         log = new LinkedList<String>();
         return tempLog;
     }
 
     @Override
-    public boolean WhiteGoing() {
+    public boolean whiteGoing() {
         return whiteTurn;
     }
 
     @Override
-    public boolean WhiteWin() {
+    public boolean whiteWin() {
         return (blacksAlive == 0);
     }
 
     @Override
-    public boolean BlackWin() {
+    public boolean blackWin() {
         return (whitesAlive == 0);
 
     }
