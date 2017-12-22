@@ -177,6 +177,10 @@ public class SceneController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         MainField.minWidthProperty().bind(((GridPane)MainField.getParent()).widthProperty());
         MainField.minHeightProperty().bind(((GridPane)MainField.getParent()).widthProperty());
+        ImgChar1.fitWidthProperty().bind(((GridPane)ImgChar1.getParent()).widthProperty());
+        ImgChar1.fitHeightProperty().bind(((GridPane)ImgChar1.getParent()).heightProperty().multiply(0.35));
+        ImgChar2.fitWidthProperty().bind(((GridPane)ImgChar1.getParent()).widthProperty());
+        ImgChar2.fitHeightProperty().bind(((GridPane)ImgChar1.getParent()).heightProperty().multiply(0.35));
         model = new Model();
         initFieldBack();
         showField();
