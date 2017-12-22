@@ -10,7 +10,7 @@ public class LVolkolak extends ACreature{
         description = "Глупый и бронебойный. Сносит все на своем пути и идет дальше кушать супчик из зеленых мухоморчиков.";
         strenght = 8;
         imageFileName = "LVolkolak.jpg";
-        iconFileName = "";
+        iconFileName = "LVolkolak.png";
     }
 
 
