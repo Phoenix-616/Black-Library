@@ -11,6 +11,7 @@ import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LKochey;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LLesovik;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LRusalka;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LVolkolak;
+import ru.nsu.fit.g14203.dreamteam.awesomechess.field.Demiurg.Joke;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.Figure.FigureColor;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules.FigureType;
 
@@ -20,6 +21,8 @@ import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules.FigureType;
  */
 public class Model implements IModel {
 
+    Demiurg demiurg = new Demiurg("Боженька");
+
     private Cell[][] chessBoard;
     private boolean whiteTurn;
 
@@ -28,8 +31,14 @@ public class Model implements IModel {
     LinkedList<ICreature> selectedCreatures = new LinkedList<>();
     LinkedList<String> log = new LinkedList<>();
 
+    LinkedList<ICreature> selectedCreatures = new LinkedList<>();
+    LinkedList<String> log = new LinkedList<>();
+
     Random randomizer = new Random();
     
+    int whitesAlive = 12;
+    int blacksAlive = 12;
+
     int whitesAlive = 12;
     int blacksAlive = 12;
 
@@ -41,6 +50,12 @@ public class Model implements IModel {
     private void renovate() {
 
         whiteTurn = true;
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 2; j < 6; j++) {
+                chessBoard[i][j] = new Cell();
+            }
+        }
 
         for (int i = 0; i < 8; i++) {
             chessBoard[i][1] = new Cell(new Figure(new LDomovoy(), FigureType.PAWN, FigureColor.WHITE));
@@ -87,12 +102,14 @@ public class Model implements IModel {
                 SelectedFigCoords = new FieldCoord(coords.X, coords.Y);
                 selectedCreatures = new LinkedList<>();
                 selectedCreatures.add(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+                log.add((whiteTurn?"Белый(ая)":"Черный(ая)") + selectedCreatures.getFirst().GetName() + "ожидает приказа главнокомандующего.");
             }
             return;
         }
 
         //если дважды ткнули в одну клетку - выбор фигуры снимается
-        if (SelectedFigCoords.equals(coords)) {
+        if (SelectedFigCoords.equalsTo(coords)) {
+            log.add((whiteTurn?"Белый(ая)":"Черный(ая)") + selectedCreatures.getFirst().GetName() + "отправлен во временное увольнение");
             SelectedFigCoords = null;
             selectedCreatures = new LinkedList<>();
             return;
@@ -106,43 +123,34 @@ public class Model implements IModel {
         
         //если фигура ...TYPE может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
         if (StepRules.canFigureGo(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE, SelectedFigCoords, coords, this)) {
+
             //и если эта клетка пуста...
             if (cellIsEmpty(coords)) {
                 moveFigure(SelectedFigCoords, coords);
                 newTurn();
+                demiurgIntervention();
                 return;
             }
 
-            //если не пуста - бой
-            Figure firstBattler = chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure(), 
-                   secondBattler = chessBoard[coords.X][coords.Y].getFigure(), 
-                   winner;
+            //если не пуста добавляем противника в список выделенных существ...
+            if (whiteTurn) {
+                selectedCreatures.addLast(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+            } else {
+                selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+            }
             
+            //и отправляем бойцов на арену
+            Figure firstBattler = chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure(),
+                    secondBattler = chessBoard[coords.X][coords.Y].getFigure(),
+                    winner;
+
             winner = battle(firstBattler, secondBattler);
-            
             //атакующую фигуру убираем со старого места и...
             chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].setFigure(null);
             //победителя помещаем на место атаки
             chessBoard[coords.X][coords.Y].setFigure(winner);
-            
-            newTurn();
-            
-            if(winner.COLOR == FigureColor.WHITE){
-                blacksAlive--;
-                if(blacksAlive == 0){
-                    log.add("Яркий свет полуденного солнца освещает мир вокруг, а его жители как ни в чем небывало "
-                            + "продолжают заниматься своими делами, даже не подозревая о великой битве, что совсем недавно прогремела.");
-                    log.add("== Победа светлых ==");
-                }
-            }
-            else{
-                whitesAlive--;
-                if(whitesAlive == 0){
-                    log.add("Мир вокруг окутывает кромешная тьма, со всех сторон слышен тихий, зловещий смех...");
-                    log.add("== Победа тёмных ==");
-                }
-            }
-            
+
+            processBattleResults(winner);
         }
     }
 
@@ -153,21 +161,63 @@ public class Model implements IModel {
 
     //перемещает фигуру из клетки с координатами from в клетку с координатами to
     private void moveFigure(FieldCoord from, FieldCoord to) {
+        String creatureName = chessBoard[from.X][from.Y].getFigure().getCreature().GetName();
+        String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR==FigureColor.WHITE?"Белый(ая)" : "Черный(ая)";
+        
         chessBoard[to.X][to.Y].setFigure(chessBoard[from.X][from.Y].getFigure());
         chessBoard[from.X][from.Y].setFigure(null);
+
+        log.add(figureColor + creatureName + "переместился(лась) из клетки (" + from.X + "," + from.Y + ") в клетку (" + from.X + "," + from.Y + ")");
     }
 
-    //смена хода (черные->белые или белые->черные)
+    //смена хода (черные->белые или белые->черные) и шалость демиурга
     private void newTurn() {
         whiteTurn = !whiteTurn;
+        log.add("Ход переходит к " + ((whiteTurn) ? "белым" : "черным"));
+    }
+
+    private void demiurgIntervention() {
+        Joke joke = demiurg.playJoke();
+        Figure targetFigure = chessBoard[joke.where.X][joke.where.Y].getFigure();
+
+        switch (joke.what) {
+            case SWITCHLVL:
+
+                if (targetFigure == null) {
+                    log.add("На клетке (" + joke.where.X + "," + joke.where.Y + ") появляются зловредные пикси. Однако цели для своей проказы они не находят...");
+                    return;
+                }
+
+                String oldCreatureName = targetFigure.getCreature().GetName();
+
+                targetFigure.setCreature(targetFigure.getCreature().GetOtherForm());
+                log.add(demiurg.name + " пошалил: на клетке (" + joke.where.X + "," + joke.where.Y + ") клубиться розовый туман...");
+                log.add("Туман рассеивается и на месте, где только что стоял(а) " + oldCreatureName + ", оказывается " + targetFigure.getCreature().GetName());
+                return;
+
+            case KILLKINDLY:
+
+                if (targetFigure == null) {
+                    log.add(demiurg.name + " шарахнул молнией в клетку (" + joke.where.X + "," + joke.where.Y + "). К его величайшему сожалению она была пуста...");
+                    return;
+                }
+
+                targetFigure.setCreature(null);
+                log.add(demiurg.name + " злобно хихикает: на клетку (" + joke.where.X + "," + joke.where.Y + ") только что упал здоровенный валун");
+                log.add(targetFigure.getCreature().GetName() + ", который(ая) там стоял(а) не выжил(а)...");
+        }
     }
 
     //бой
     private Figure battle(Figure firstBattler, Figure secondBattler) {
 
+        log.add("В битве сошлись белый(ая)" + selectedCreatures.getFirst().GetName() + " и черный(ая)" + selectedCreatures.getLast().GetName());
+
         int fistStrength = firstBattler.getCreature().GetStrength();
         int secondStrength = secondBattler.getCreature().GetStrength();
 
+        String strongerColor;
+        String weakerColor;
         int minStrength = min(fistStrength, secondStrength);
         Figure weakerBattler;
         Figure strongerBattler;
@@ -182,10 +232,40 @@ public class Model implements IModel {
             strongerBattler = firstBattler;
         }
 
+        weakerColor = (weakerBattler.COLOR == FigureColor.WHITE ? "белый(ая)" : "черный(ая)");
+        strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? "белый(ая)" : "черный(ая)");
+
         if (randomizer.nextInt(fistStrength + secondStrength) < minStrength) {
+            log.add(strongerColor + strongerBattler.getCreature().GetName() + "замешкался(лась) и потерпел(а) поражение, а " + 
+                    weakerColor + weakerBattler.getCreature().GetName() + "с видом победителя оглядывает поле сражения.");
             return weakerBattler;
         }
+        log.add(strongerColor + strongerBattler.getCreature().GetName() + "играючи одерживает победу; " + 
+                    weakerColor + weakerBattler.getCreature().GetName() + "покинул(а) этот бренный мир...");
+            
         return strongerBattler;
+    }
+
+    private void processBattleResults(Figure winner) {
+        if (winner.COLOR == FigureColor.WHITE) {
+            blacksAlive--;
+            if (blacksAlive == 0) {
+                log.add("Яркий свет полуденного солнца освещает мир вокруг, а его жители как ни в чем небывало "
+                        + "продолжают заниматься своими делами, даже не подозревая о великой битве, что совсем недавно прогремела.");
+                log.add("== Победа светлых ==");
+                return;
+            }
+        } else {
+            whitesAlive--;
+            if (whitesAlive == 0) {
+                log.add("Мир вокруг окутывает кромешная тьма, со всех сторон слышен тихий, зловещий смех...");
+                log.add("== Победа тёмных ==");
+                return;
+            }
+        }
+
+        newTurn();
+        demiurgIntervention();
     }
 
     @Override
@@ -213,12 +293,13 @@ public class Model implements IModel {
 
     @Override
     public boolean WhiteWin() {
-        return(blacksAlive == 0);
+        return (blacksAlive == 0);
     }
 
     @Override
     public boolean BlackWin() {
-        return(whitesAlive == 0);
+        return (whitesAlive == 0);
+
     }
 
 }
