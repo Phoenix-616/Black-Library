@@ -27,7 +27,7 @@ public class Model implements IModel {
     private Demiurg demiurg = new Demiurg("Боженька");
 
     private Cell[][] chessBoard;
-    private boolean whiteTurn;
+    private boolean whiteTurn = true;
 
     private FieldCoord SelectedFigCoords = null;
 
@@ -45,6 +45,7 @@ public class Model implements IModel {
     }
     
     public Model(Cell[][] board) {
+        whiteTurn = true;
         chessBoard = board;
     }
 
@@ -125,8 +126,6 @@ public class Model implements IModel {
             selectedCreatures = new LinkedList<>();
             return;
         }
-
-        System.out.println(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE);
 
         //если фигура ...TYPE может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
         if (StepRules.canFigureGo(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE, SelectedFigCoords, coords, this)) {
