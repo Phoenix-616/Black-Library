@@ -12,7 +12,7 @@ public class LDomovoy extends ACreature {
         strenght = 2;
         imageFileName = "LDomovoy.jpg";
         iconFileNameBlack = "LDomovoy.png";
-        iconFileNameWhite = "LDomovoy.png";
+        iconFileNameWhite = "WLDomovoy.png";
     }
 
     @Override

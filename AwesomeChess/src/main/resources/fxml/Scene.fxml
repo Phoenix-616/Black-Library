@@ -20,8 +20,8 @@
       </ToolBar>
       <GridPane VBox.vgrow="ALWAYS">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="454.8" minWidth="10.0" prefWidth="388.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="268.99999999999994" minWidth="10.0" prefWidth="228.99999999999994" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" percentWidth="75.0" />
+          <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -32,8 +32,8 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="388.0" minHeight="10.0" prefHeight="388.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="230.0" minHeight="10.0" prefHeight="213.0" vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <TextArea fx:id="LogTextArea" editable="false" prefHeight="104.0" prefWidth="350.0" wrapText="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
