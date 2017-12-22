@@ -14,9 +14,9 @@ import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules.FigureType;
  */
 public class Figure {
 
-    public static enum FigureColor {
+    public enum FigureColor {
         WHITE, BLACK
-    };
+    }
 
     private ICreature creature;
     public final FigureType TYPE;
