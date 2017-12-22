@@ -85,7 +85,7 @@ public class Model implements IModel {
     }
 
     @Override
-    public void CellClicked(FieldCoord coords) {
+    public void cellClicked(FieldCoord coords) {
 
         //если фигура еще не была выделена и выбранная клетка не пуста, то...
         if (SelectedFigCoords == null && !cellIsEmpty(coords)) {
@@ -96,14 +96,21 @@ public class Model implements IModel {
                 SelectedFigCoords = new FieldCoord(coords.X, coords.Y);
                 selectedCreatures = new LinkedList<>();
                 selectedCreatures.add(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-                log.add((whiteTurn?"Белый(ая)":"Черный(ая)") + selectedCreatures.getFirst().GetName() + "ожидает приказа главнокомандующего.");
+                
+                //строгий порядок записи белого и черного существа в список
+                if (whiteTurn) {
+                    selectedCreatures.addLast(null);
+                } else {
+                    selectedCreatures.addFirst(null);
+                }
+                log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().GetName() + "ожидает приказа главнокомандующего.");
             }
             return;
         }
 
         //если дважды ткнули в одну клетку - выбор фигуры снимается
         if (SelectedFigCoords.equalsTo(coords)) {
-            log.add((whiteTurn?"Белый(ая)":"Черный(ая)") + selectedCreatures.getFirst().GetName() + "отправлен во временное увольнение");
+            log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().GetName() + "отправлен во временное увольнение");
             SelectedFigCoords = null;
             selectedCreatures = new LinkedList<>();
             return;
@@ -132,7 +139,7 @@ public class Model implements IModel {
             } else {
                 selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
             }
-            
+
             //и отправляем бойцов на арену
             Figure firstBattler = chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure(),
                     secondBattler = chessBoard[coords.X][coords.Y].getFigure(),
@@ -156,8 +163,8 @@ public class Model implements IModel {
     //перемещает фигуру из клетки с координатами from в клетку с координатами to
     private void moveFigure(FieldCoord from, FieldCoord to) {
         String creatureName = chessBoard[from.X][from.Y].getFigure().getCreature().GetName();
-        String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR==FigureColor.WHITE?"Белый(ая)" : "Черный(ая)";
-        
+        String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)";
+
         chessBoard[to.X][to.Y].setFigure(chessBoard[from.X][from.Y].getFigure());
         chessBoard[from.X][from.Y].setFigure(null);
 
@@ -230,13 +237,13 @@ public class Model implements IModel {
         strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? "белый(ая)" : "черный(ая)");
 
         if (randomizer.nextInt(fistStrength + secondStrength) < minStrength) {
-            log.add(strongerColor + strongerBattler.getCreature().GetName() + "замешкался(лась) и потерпел(а) поражение, а " + 
-                    weakerColor + weakerBattler.getCreature().GetName() + "с видом победителя оглядывает поле сражения.");
+            log.add(strongerColor + strongerBattler.getCreature().GetName() + "замешкался(лась) и потерпел(а) поражение, а "
+                    + weakerColor + weakerBattler.getCreature().GetName() + "с видом победителя оглядывает поле сражения.");
             return weakerBattler;
         }
-        log.add(strongerColor + strongerBattler.getCreature().GetName() + "играючи одерживает победу; " + 
-                    weakerColor + weakerBattler.getCreature().GetName() + "покинул(а) этот бренный мир...");
-            
+        log.add(strongerColor + strongerBattler.getCreature().GetName() + "играючи одерживает победу; "
+                + weakerColor + weakerBattler.getCreature().GetName() + "покинул(а) этот бренный мир...");
+
         return strongerBattler;
     }
 
@@ -263,7 +270,7 @@ public class Model implements IModel {
     }
 
     @Override
-    public Cell[][] GetState() {
+    public Cell[][] getState() {
 
         Cell[][] chessBoardCopy = new Cell[8][8];
         for (int i = 0; i < 8; i++) {
@@ -276,22 +283,28 @@ public class Model implements IModel {
     }
 
     @Override
-    public List<ICreature> GetSelectedCreatures() {
+    public List<ICreature> getSelectedCreatures() {
         return selectedCreatures;
     }
 
+    public List<String> getLog() {
+        LinkedList<String> tempLog = new LinkedList<>(log);
+        log = new LinkedList<String>();
+        return tempLog;
+    }
+
     @Override
-    public boolean WhiteGoing() {
+    public boolean whiteGoing() {
         return whiteTurn;
     }
 
     @Override
-    public boolean WhiteWin() {
+    public boolean whiteWin() {
         return (blacksAlive == 0);
     }
 
     @Override
-    public boolean BlackWin() {
+    public boolean blackWin() {
         return (whitesAlive == 0);
 
     }
