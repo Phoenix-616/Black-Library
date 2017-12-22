@@ -36,7 +36,7 @@ public class Model implements IModel {
     int whitesAlive = 12;
     int blacksAlive = 12;
 
-    public void Model() {
+    public Model() {
         chessBoard = new Cell[8][8];
         renovate();
     }
