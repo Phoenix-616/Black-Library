@@ -66,6 +66,7 @@ public class SceneController implements Initializable {
             Node obj = (Node) event.getTarget();
             int x = GridPane.getColumnIndex(obj);
             int y = 7 - GridPane.getRowIndex(obj);
+            System.out.println( x+" "+y);
             model.cellClicked(new FieldCoord(x, y));
             showField();
             showCreatures();
