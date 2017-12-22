@@ -27,12 +27,12 @@ public class Model implements IModel {
     private boolean whiteTurn;
 
     private FieldCoord SelectedFigCoords = null;
-    
+
     LinkedList<ICreature> selectedCreatures = new LinkedList<>();
     LinkedList<String> log = new LinkedList<>();
 
     Random randomizer = new Random();
-    
+
     int whitesAlive = 12;
     int blacksAlive = 12;
 
@@ -80,48 +80,47 @@ public class Model implements IModel {
         chessBoard[2][7] = new Cell(new Figure(new LLesovik(), FigureType.BISHOP, FigureColor.BLACK));
         chessBoard[5][7] = new Cell(new Figure(new LLesovik(), FigureType.BISHOP, FigureColor.BLACK));
 
-        chessBoard[4][0] = new Cell(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
-        chessBoard[3][0] = new Cell(new Figure(new LKochey(), FigureType.KING, FigureColor.BLACK));
+        chessBoard[4][7] = new Cell(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
+        chessBoard[3][7] = new Cell(new Figure(new LKochey(), FigureType.KING, FigureColor.BLACK));
     }
 
     @Override
     public void cellClicked(FieldCoord coords) {
 
         //если фигура еще не была выделена и выбранная клетка не пуста, то...
-        if (SelectedFigCoords == null && !cellIsEmpty(coords)) {
-            FigureColor tmpCol = chessBoard[coords.X][coords.Y].getFigure().COLOR;
+        if (SelectedFigCoords == null) {
+            if (!cellIsEmpty(coords)) {
+                FigureColor tmpCol = chessBoard[coords.X][coords.Y].getFigure().COLOR;
 
-            //если цвет выделенной фигуры совпадает с цветом хода, фигура может быть выделена
-            if ((tmpCol == FigureColor.WHITE && whiteTurn) || (tmpCol == FigureColor.BLACK && !whiteTurn)) {
-                SelectedFigCoords = new FieldCoord(coords.X, coords.Y);
-                selectedCreatures = new LinkedList<>();
-                selectedCreatures.add(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-                
-                //строгий порядок записи белого и черного существа в список
-                if (whiteTurn) {
-                    selectedCreatures.addLast(null);
-                } else {
-                    selectedCreatures.addFirst(null);
+                //если цвет выделенной фигуры совпадает с цветом хода, фигура может быть выделена
+                if ((tmpCol == FigureColor.WHITE && whiteTurn) || (tmpCol == FigureColor.BLACK && !whiteTurn)) {
+                    SelectedFigCoords = new FieldCoord(coords.X, coords.Y);
+                    selectedCreatures = new LinkedList<>();
+                    selectedCreatures.add(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+
+                    log.add((whiteTurn ? "Белый(ая) " : "Черный(ая) ") + selectedCreatures.getFirst().getName() + " ожидает приказа главнокомандующего.");
+
+                    //строгий порядок записи белого и черного существа в список
+                    if (whiteTurn) {
+                        selectedCreatures.addLast(null);
+                    } else {
+                        selectedCreatures.addFirst(null);
+                    }
                 }
-                log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().getName() + "ожидает приказа главнокомандующего.");
             }
             return;
         }
 
         //если дважды ткнули в одну клетку - выбор фигуры снимается
         if (SelectedFigCoords.equalsTo(coords)) {
-            log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().getName() + "отправлен во временное увольнение");
+            log.add((whiteTurn ? ("Белый(ая) " + selectedCreatures.getFirst().getName()) : ("Черный(ая) " + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
             SelectedFigCoords = null;
             selectedCreatures = new LinkedList<>();
             return;
         }
 
-        if(whiteTurn){
-            selectedCreatures.addLast(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-        }else{
-            selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-        }
-        
+        System.out.println(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE);
+
         //если фигура ...TYPE может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
         if (StepRules.canFigureGo(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE, SelectedFigCoords, coords, this)) {
 
@@ -130,6 +129,7 @@ public class Model implements IModel {
                 moveFigure(SelectedFigCoords, coords);
                 newTurn();
                 demiurgIntervention();
+                SelectedFigCoords = null;
                 return;
             }
 
@@ -152,6 +152,12 @@ public class Model implements IModel {
             chessBoard[coords.X][coords.Y].setFigure(winner);
 
             processBattleResults(winner);
+
+            SelectedFigCoords = null;
+        } else {
+            log.add((whiteTurn ? ("Белый(ая) " + selectedCreatures.getFirst().getName()) : ("Черный(ая) " + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
+            SelectedFigCoords = null;
+            selectedCreatures = new LinkedList<>();
         }
     }
 
@@ -168,7 +174,7 @@ public class Model implements IModel {
         chessBoard[to.X][to.Y].setFigure(chessBoard[from.X][from.Y].getFigure());
         chessBoard[from.X][from.Y].setFigure(null);
 
-        log.add(figureColor + creatureName + "переместился(лась) из клетки (" + from.X + "," + from.Y + ") в клетку (" + from.X + "," + from.Y + ")");
+        log.add(figureColor + " " + creatureName + " переместился(лась) из клетки (" + from.X + "," + from.Y + ") в клетку (" + from.X + "," + from.Y + ").");
     }
 
     //смена хода (черные->белые или белые->черные) и шалость демиурга
@@ -203,16 +209,18 @@ public class Model implements IModel {
                     return;
                 }
 
+                String deadManName = targetFigure.getCreature().getName();
+                String deadManColor = (FigureColor.WHITE == targetFigure.COLOR ? "Белый(ая) " : "Черный(ая) ");
                 targetFigure.setCreature(null);
                 log.add(demiurg.name + " злобно хихикает: на клетку (" + joke.where.X + "," + joke.where.Y + ") только что упал здоровенный валун");
-                log.add(targetFigure.getCreature().getName() + ", который(ая) там стоял(а) не выжил(а)...");
+                log.add(deadManColor + " " + deadManName + ", который(ая) там стоял(а) не выжил(а)...");
         }
     }
 
     //бой
     private Figure battle(Figure firstBattler, Figure secondBattler) {
 
-        log.add("В битве сошлись белый(ая)" + selectedCreatures.getFirst().getName() + " и черный(ая)" + selectedCreatures.getLast().getName());
+        log.add("В битве сошлись белый(ая) " + selectedCreatures.getFirst().getName() + " и черный(ая) " + selectedCreatures.getLast().getName());
 
         int fistStrength = firstBattler.getCreature().getStrength();
         int secondStrength = secondBattler.getCreature().getStrength();
@@ -233,16 +241,16 @@ public class Model implements IModel {
             strongerBattler = firstBattler;
         }
 
-        weakerColor = (weakerBattler.COLOR == FigureColor.WHITE ? "белый(ая)" : "черный(ая)");
-        strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? "белый(ая)" : "черный(ая)");
+        weakerColor = (weakerBattler.COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)");
+        strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)");
 
         if (randomizer.nextInt(fistStrength + secondStrength) < minStrength) {
-            log.add(strongerColor + strongerBattler.getCreature().getName() + "замешкался(лась) и потерпел(а) поражение, а "
-                    + weakerColor + weakerBattler.getCreature().getName() + "с видом победителя оглядывает поле сражения.");
+            log.add(strongerColor + " " + strongerBattler.getCreature().getName() + " замешкался(лась) и потерпел(а) поражение.");
+            log.add(weakerColor + " " + weakerBattler.getCreature().getName() + " с видом победителя оглядывает поле сражения.");
             return weakerBattler;
         }
-        log.add(strongerColor + strongerBattler.getCreature().getName() + "играючи одерживает победу; "
-                + weakerColor + weakerBattler.getCreature().getName() + "покинул(а) этот бренный мир...");
+        log.add(strongerColor + " " + strongerBattler.getCreature().getName() + " играючи одерживает победу.");
+        log.add(weakerColor + " " + weakerBattler.getCreature().getName() + " покинул(а) этот бренный мир...");
 
         return strongerBattler;
     }
