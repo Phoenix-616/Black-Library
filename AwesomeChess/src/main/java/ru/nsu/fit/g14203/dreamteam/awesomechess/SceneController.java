@@ -55,6 +55,8 @@ public class SceneController implements Initializable {
     private ImageView ImgChar2;
 
     private IModel model = null;
+    
+    private boolean Alive = true;
 
     /**
      * Initializes the controller class.
@@ -65,6 +67,9 @@ public class SceneController implements Initializable {
 
         @Override
         public void handle(Event event) {
+            if (!Alive) {
+                return;
+            }
             Node obj = (Node) event.getTarget();
             int x = GridPane.getColumnIndex(obj);
             int y = 7 - GridPane.getRowIndex(obj);
@@ -73,10 +78,10 @@ public class SceneController implements Initializable {
             showCreatures();
             updateLogs();
             if (model.blackWin()) {
-                addInfo("ПОБЕДА РАБОВ!!!");
+                Alive = false;
             }
             if (model.whiteWin()) {
-                addInfo("ПОБЕДА ХОЗЯЕВ!!!");
+                Alive = false;
             }
         }
 
@@ -188,6 +193,7 @@ public class SceneController implements Initializable {
         showField();
         showCreatures();
         LogTextArea.setText("");
+        Alive = true;
     }
 
     @FXML

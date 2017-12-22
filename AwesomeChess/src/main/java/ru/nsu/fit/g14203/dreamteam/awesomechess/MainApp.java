@@ -19,8 +19,8 @@ public class MainApp extends Application {
         
         stage.setTitle("Awesome Chess");
         stage.setScene(scene);
-        //stage.minWidthProperty().bind(scene.heightProperty());
-        //stage.minHeightProperty().bind(scene.widthProperty());
+        stage.minWidthProperty().bind(scene.heightProperty());
+        stage.minHeightProperty().bind(scene.widthProperty());
         stage.show();
     }
 
