@@ -17,19 +17,19 @@ public class StepRules {
     }
 
     //Тип фигуры (По порядку: король, ферзь, ладья, конь, слон, пешка)
-    public static enum FigureType {
+    public enum FigureType {
         KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN
     }
 
     public static boolean canFigureGo(FigureType figureType, FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
         if (figureType == FigureType.KING) {
-            return canKingGo(figureCoord, targetCoord, model);
+            return canKingGo(figureCoord, targetCoord);
         } else if (figureType == FigureType.QUEEN) {
             return canQueenGo(figureCoord, targetCoord, model);
         } else if (figureType == FigureType.ROOK) {
             return canRookGo(figureCoord, targetCoord, model);
         } else if (figureType == FigureType.KNIGHT) {
-            return canKnightGo(figureCoord, targetCoord, model);
+            return canKnightGo(figureCoord, targetCoord);
         } else if (figureType == FigureType.BISHOP) {
             return canBishopGo(figureCoord, targetCoord, model);
         } else if (figureType == FigureType.PAWN) {
@@ -38,7 +38,7 @@ public class StepRules {
         return false;
     }
 
-    private static boolean canKingGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
+    private static boolean canKingGo(FieldCoord figureCoord, FieldCoord targetCoord) {
 
         if(targetCoord.Y - figureCoord.Y == 1){ //проверяем верхнюю или нижнюю строку для хода короля
             if(targetCoord.X == figureCoord.X || targetCoord.X - figureCoord.X == 1 || targetCoord.X - figureCoord.X == -1){
@@ -66,54 +66,66 @@ public class StepRules {
     }
 
     private static boolean canRookGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
-        int y = 0, x = 0;
         if (figureCoord.X == targetCoord.X) {  //проверяем вертикальные ходы
-            if (figureCoord.Y < targetCoord.Y) { //проверяем ход вправо вверх
-                y = figureCoord.Y + 1;
-                while (y < targetCoord.Y) {
-                    if (!model.cellIsEmpty(new FieldCoord(figureCoord.X, y))) {
-                        return false;
-                    }
-                    y++;
-                }
-                return true;
-            }
-            if (figureCoord.Y > targetCoord.Y) { //проверяем ход вниз
-                y = figureCoord.Y - 1;
-                while (y > targetCoord.Y) {
-                    if (!model.cellIsEmpty(new FieldCoord(figureCoord.X, y))) {
-                        return false;
-                    }
-                    y--;
-                }
-                return true;
-            }
-        } else if (figureCoord.Y == targetCoord.Y) { //проверяем горизонтальные ходы
-            if (figureCoord.X < targetCoord.X) { //проверяе ход вправо
-                x = figureCoord.X + 1;
-                while (x < targetCoord.X) {
-                    if (!model.cellIsEmpty(new FieldCoord(x, figureCoord.Y))) {
-                        return false;
-                    }
-                    x++;
-                }
-                return true;
-            }
-            if (figureCoord.X > targetCoord.X) { //проверяем ход влево
-                x = figureCoord.X - 1;
-                while (x > targetCoord.X) {
-                    if (!model.cellIsEmpty(new FieldCoord(x, figureCoord.Y))) {
-                        return false;
-                    }
-                    x--;
-                }
-                return true;
-            }
+            return canGoVertical(figureCoord, targetCoord, model);
+        }
+        else if (figureCoord.Y == targetCoord.Y) { //проверяем горизонтальные ходы
+           return canGoHorizontal(figureCoord, targetCoord, model);
         }
         return false;
     }
 
-    private static boolean canKnightGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
+    private static boolean canGoVertical(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
+        int y;
+        if (figureCoord.Y < targetCoord.Y) { //проверяем ход вправо вверх
+            y = figureCoord.Y + 1;
+            while (y < targetCoord.Y) {
+                if (!model.cellIsEmpty(new FieldCoord(figureCoord.X, y))) {
+                    return false;
+                }
+                y++;
+            }
+            return true;
+        }
+        if (figureCoord.Y > targetCoord.Y) { //проверяем ход вниз
+            y = figureCoord.Y - 1;
+            while (y > targetCoord.Y) {
+                if (!model.cellIsEmpty(new FieldCoord(figureCoord.X, y))) {
+                    return false;
+                }
+                y--;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean canGoHorizontal(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
+        int x;
+        if (figureCoord.X < targetCoord.X) { //проверяе ход вправо
+            x = figureCoord.X + 1;
+            while (x < targetCoord.X) {
+                if (!model.cellIsEmpty(new FieldCoord(x, figureCoord.Y))) {
+                    return false;
+                }
+                x++;
+            }
+            return true;
+        }
+        if (figureCoord.X > targetCoord.X) { //проверяем ход влево
+            x = figureCoord.X - 1;
+            while (x > targetCoord.X) {
+                if (!model.cellIsEmpty(new FieldCoord(x, figureCoord.Y))) {
+                    return false;
+                }
+                x--;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean canKnightGo(FieldCoord figureCoord, FieldCoord targetCoord) {
         if(
            targetCoord.X - figureCoord.X == 2 && (targetCoord.Y - figureCoord.Y == 1 || targetCoord.Y - figureCoord.Y == -1) ||  //проверили правые Гшки
            targetCoord.X - figureCoord.X == -2 && (targetCoord.Y - figureCoord.Y == 1 || targetCoord.Y - figureCoord.Y == -1) || //проверили левые Гшки
@@ -122,64 +134,76 @@ public class StepRules {
            ){
             return true;
         }
-        else return false;
+        return false;
     }
 
     private static boolean canBishopGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
-        int x = 0, y = 0;
         if (figureCoord.Y < targetCoord.Y) { //проверяем верхние квадраты
-            if (figureCoord.X < targetCoord.X) { //проверяем правый верхний квадрат
-                x = figureCoord.X + 1;
-                y = figureCoord.Y + 1;
-                while (y < targetCoord.Y && x < targetCoord.X) {
-                    if (!model.cellIsEmpty(new FieldCoord(x, y))) {
-                        return false;
-                    }
-                    x++;
-                    y++;
-                }
-                return true;
-            } else { //проверяем левый верхний квадрат
-                x = figureCoord.X - 1;
-                y = figureCoord.Y + 1;
-                while (y < targetCoord.Y && x > targetCoord.X) {
-                    if (!model.cellIsEmpty(new FieldCoord(x, y))) {
-                        return false;
-                    }
-                    x--;
-                    y++;
-                }
-                return true;
-            }
+            canGoTopDiagonals(figureCoord, targetCoord, model);
         } else { //проверяем нижние квадраты
-            if (figureCoord.X < targetCoord.X) {//проверяем нижний правый квадрат
-                x = figureCoord.X + 1;
-                y = figureCoord.Y - 1;
-                while (y > targetCoord.Y && x < targetCoord.X) {
-                    if (!model.cellIsEmpty(new FieldCoord(x, y))) {
-                        return false;
-                    }
-                    x++;
-                    y--;
+            canGoBottomDiagonals(figureCoord, targetCoord, model);
+        }
+        return false;
+    }
+
+    private static boolean canGoTopDiagonals(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
+        int x = 0;
+        int y = 0;
+        if (figureCoord.X < targetCoord.X) { //проверяем правый верхний квадрат
+            x = figureCoord.X + 1;
+            y = figureCoord.Y + 1;
+            while (y < targetCoord.Y && x < targetCoord.X) {
+                if (!model.cellIsEmpty(new FieldCoord(x, y))) {
+                    return false;
                 }
-                return true;
-            } else { //проверяем нижний левый квадрат
-                x = figureCoord.X - 1;
-                y = figureCoord.Y - 1;
-                while (y > targetCoord.Y && x > targetCoord.X) {
-                    if (!model.cellIsEmpty(new FieldCoord(x, y))) {
-                        return false;
-                    }
-                    x--;
-                    y--;
-                }
-                return true;
+                x++;
+                y++;
             }
+            return true;
+        } else { //проверяем левый верхний квадрат
+            x = figureCoord.X - 1;
+            y = figureCoord.Y + 1;
+            while (y < targetCoord.Y && x > targetCoord.X) {
+                if (!model.cellIsEmpty(new FieldCoord(x, y))) {
+                    return false;
+                }
+                x--;
+                y++;
+            }
+            return true;
+        }
+    }
+    private static boolean canGoBottomDiagonals(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
+        int x;
+        int y;
+        if (figureCoord.X < targetCoord.X) {//проверяем нижний правый квадрат
+        x = figureCoord.X + 1;
+        y = figureCoord.Y - 1;
+        while (y > targetCoord.Y && x < targetCoord.X) {
+            if (!model.cellIsEmpty(new FieldCoord(x, y))) {
+                return false;
+            }
+            x++;
+            y--;
+        }
+        return true;
+    } else { //проверяем нижний левый квадрат
+        x = figureCoord.X - 1;
+        y = figureCoord.Y - 1;
+        while (y > targetCoord.Y && x > targetCoord.X) {
+            if (!model.cellIsEmpty(new FieldCoord(x, y))) {
+                return false;
+            }
+            x--;
+            y--;
+        }
+        return true;
         }
     }
 
     private static boolean canPawnGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
-        int y0, y1;  //y0 - координата той фигуры, которая стоит ниже
+        int y0;  //y0 - координата той фигуры, которая стоит ниже
+        int y1;
         if (model.WhiteGoing()) {
             y0 = figureCoord.Y;
             y1 = targetCoord.Y;
