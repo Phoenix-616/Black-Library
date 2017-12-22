@@ -12,6 +12,7 @@ public class LBabaYaga extends ACreature {
         strenght = 6;
         imageFileName = "LBabaYaga.jpg";
         iconFileNameBlack = "LBabaYaga.png";
+        iconFileNameWhite = "LBabaYaga.png";
     }
 
     @Override
