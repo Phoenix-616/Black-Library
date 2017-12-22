@@ -11,7 +11,8 @@ public class HVolkolak extends ACreature {
                 "Сражение с таким смерти подобно, а выживших можно пересчитать по пальцам одной руки. ";
         strenght = 11;
         imageFileName = "HVolkolak.jpg";
-        iconFileName = "HVolkolak.png";
+        iconFileNameBlack = "HVolkolak.png";
+        iconFileNameWhite = "HVolkolak.png";
     }
 
     @Override

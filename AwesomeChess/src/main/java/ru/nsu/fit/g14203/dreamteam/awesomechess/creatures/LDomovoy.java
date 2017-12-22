@@ -11,7 +11,8 @@ public class LDomovoy extends ACreature {
         description = "Незаметный, но незаменимый боец домашнего фронта";
         strenght = 2;
         imageFileName = "LDomovoy.jpg";
-        iconFileName = "LDomovoy.png";
+        iconFileNameBlack = "LDomovoy.png";
+        iconFileNameWhite = "LDomovoy.png";
     }
 
     @Override

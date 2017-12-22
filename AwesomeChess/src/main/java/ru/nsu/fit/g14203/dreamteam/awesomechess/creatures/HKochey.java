@@ -11,7 +11,8 @@ public class HKochey extends ACreature {
         description = "Против такого не поможет даже игла из яйца из утки из зайца, что лежит в свинцом обитом сундуке...";
         strenght = 13;
         imageFileName = "HKochey.jpg";
-        iconFileName = "HKochey.png";
+        iconFileNameBlack = "HKochey.png";
+        iconFileNameWhite = "HKochey.png";
     }
 
     @Override

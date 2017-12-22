@@ -11,7 +11,8 @@ public class LBabaYaga extends ACreature {
         description = "Старая горбатая ведьма. Живет в избушке на курьих ножках, летает в ступе и ест детей.";
         strenght = 6;
         imageFileName = "LBabaYaga.jpg";
-        iconFileName = "LBabaYaga.png";
+        iconFileNameBlack = "LBabaYaga.png";
+        iconFileNameWhite = "LBabaYaga.png";
     }
 
     @Override

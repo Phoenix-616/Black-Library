@@ -11,7 +11,8 @@ public class LLesovik extends ACreature {
                 "Добрым путникам помогает, злых обкидывает мухоморами и снежком";
         strenght = 7;
         imageFileName = "LLesovik.jpg";
-        iconFileName = "LLesovik.png";
+        iconFileNameBlack = "LLesovik.png";
+        iconFileNameWhite = "LLesovik.png";
     }
 
     @Override

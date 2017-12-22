@@ -10,7 +10,8 @@ public class HBabaYaga extends ACreature {
         description = "Молодая красивая ведьма. Управляет драконами и змеями. Заманивает мужчин в чащу и убивает их";
         strenght = 9;
         imageFileName = "HBabaYaga.jpg";
-        iconFileName = "HBabaYaga.png";
+        iconFileNameBlack = "HBabaYaga.png";
+        iconFileNameWhite = "HBabaYaga.png";
     }
 
     @Override
