@@ -11,7 +11,7 @@ public class HLesovik extends ACreature {
                 "Бойся путник взгляда его - не останется в твоей душе ничего... ";
         strenght = 10;
         imageFileName = "HLesovik.jpg";
-        iconFileName = "";
+        iconFileName = "HLesovik.png";
     }
 
     @Override
