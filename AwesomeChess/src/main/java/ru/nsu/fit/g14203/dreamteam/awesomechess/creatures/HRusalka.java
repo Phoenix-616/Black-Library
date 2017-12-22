@@ -17,6 +17,7 @@ public class HRusalka extends ACreature {
         strenght = 7;
         imageFileName = "HRusalka.jpg";
         iconFileNameBlack = "HRusalka.png";
+        iconFileNameWhite = "HRusalka.png";
     }
 
     @Override

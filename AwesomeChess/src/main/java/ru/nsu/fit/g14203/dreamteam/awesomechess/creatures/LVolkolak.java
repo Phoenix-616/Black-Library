@@ -11,6 +11,7 @@ public class LVolkolak extends ACreature{
         strenght = 8;
         imageFileName = "LVolkolak.jpg";
         iconFileNameBlack = "LVolkolak.png";
+        iconFileNameWhite = "LVolkolak.png";
     }
 
 

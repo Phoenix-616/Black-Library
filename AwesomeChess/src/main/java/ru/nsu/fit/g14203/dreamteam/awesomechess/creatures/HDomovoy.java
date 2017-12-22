@@ -12,6 +12,7 @@ public class HDomovoy extends ACreature {
         strenght = 4;
         imageFileName = "HDomovoy.jpg";
         iconFileNameBlack = "HDomovoy.png";
+        iconFileNameWhite = "HDomovoy.png";
     }
 
     @Override
