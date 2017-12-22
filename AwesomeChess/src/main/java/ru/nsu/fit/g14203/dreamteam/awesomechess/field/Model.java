@@ -103,14 +103,14 @@ public class Model implements IModel {
                 } else {
                     selectedCreatures.addFirst(null);
                 }
-                log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().GetName() + "ожидает приказа главнокомандующего.");
+                log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().getName() + "ожидает приказа главнокомандующего.");
             }
             return;
         }
 
         //если дважды ткнули в одну клетку - выбор фигуры снимается
         if (SelectedFigCoords.equalsTo(coords)) {
-            log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().GetName() + "отправлен во временное увольнение");
+            log.add((whiteTurn ? "Белый(ая)" : "Черный(ая)") + selectedCreatures.getFirst().getName() + "отправлен во временное увольнение");
             SelectedFigCoords = null;
             selectedCreatures = new LinkedList<>();
             return;
@@ -162,7 +162,7 @@ public class Model implements IModel {
 
     //перемещает фигуру из клетки с координатами from в клетку с координатами to
     private void moveFigure(FieldCoord from, FieldCoord to) {
-        String creatureName = chessBoard[from.X][from.Y].getFigure().getCreature().GetName();
+        String creatureName = chessBoard[from.X][from.Y].getFigure().getCreature().getName();
         String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)";
 
         chessBoard[to.X][to.Y].setFigure(chessBoard[from.X][from.Y].getFigure());
@@ -189,11 +189,11 @@ public class Model implements IModel {
                     return;
                 }
 
-                String oldCreatureName = targetFigure.getCreature().GetName();
+                String oldCreatureName = targetFigure.getCreature().getName();
 
-                targetFigure.setCreature(targetFigure.getCreature().GetOtherForm());
+                targetFigure.setCreature(targetFigure.getCreature().getOtherForm());
                 log.add(demiurg.name + " пошалил: на клетке (" + joke.where.X + "," + joke.where.Y + ") клубиться розовый туман...");
-                log.add("Туман рассеивается и на месте, где только что стоял(а) " + oldCreatureName + ", оказывается " + targetFigure.getCreature().GetName());
+                log.add("Туман рассеивается и на месте, где только что стоял(а) " + oldCreatureName + ", оказывается " + targetFigure.getCreature().getName());
                 return;
 
             case KILLKINDLY:
@@ -205,17 +205,17 @@ public class Model implements IModel {
 
                 targetFigure.setCreature(null);
                 log.add(demiurg.name + " злобно хихикает: на клетку (" + joke.where.X + "," + joke.where.Y + ") только что упал здоровенный валун");
-                log.add(targetFigure.getCreature().GetName() + ", который(ая) там стоял(а) не выжил(а)...");
+                log.add(targetFigure.getCreature().getName() + ", который(ая) там стоял(а) не выжил(а)...");
         }
     }
 
     //бой
     private Figure battle(Figure firstBattler, Figure secondBattler) {
 
-        log.add("В битве сошлись белый(ая)" + selectedCreatures.getFirst().GetName() + " и черный(ая)" + selectedCreatures.getLast().GetName());
+        log.add("В битве сошлись белый(ая)" + selectedCreatures.getFirst().getName() + " и черный(ая)" + selectedCreatures.getLast().getName());
 
-        int fistStrength = firstBattler.getCreature().GetStrength();
-        int secondStrength = secondBattler.getCreature().GetStrength();
+        int fistStrength = firstBattler.getCreature().getStrength();
+        int secondStrength = secondBattler.getCreature().getStrength();
 
         String strongerColor;
         String weakerColor;
@@ -237,12 +237,12 @@ public class Model implements IModel {
         strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? "белый(ая)" : "черный(ая)");
 
         if (randomizer.nextInt(fistStrength + secondStrength) < minStrength) {
-            log.add(strongerColor + strongerBattler.getCreature().GetName() + "замешкался(лась) и потерпел(а) поражение, а "
-                    + weakerColor + weakerBattler.getCreature().GetName() + "с видом победителя оглядывает поле сражения.");
+            log.add(strongerColor + strongerBattler.getCreature().getName() + "замешкался(лась) и потерпел(а) поражение, а "
+                    + weakerColor + weakerBattler.getCreature().getName() + "с видом победителя оглядывает поле сражения.");
             return weakerBattler;
         }
-        log.add(strongerColor + strongerBattler.getCreature().GetName() + "играючи одерживает победу; "
-                + weakerColor + weakerBattler.getCreature().GetName() + "покинул(а) этот бренный мир...");
+        log.add(strongerColor + strongerBattler.getCreature().getName() + "играючи одерживает победу; "
+                + weakerColor + weakerBattler.getCreature().getName() + "покинул(а) этот бренный мир...");
 
         return strongerBattler;
     }

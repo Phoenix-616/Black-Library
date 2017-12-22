@@ -11,11 +11,11 @@ public class LDomovoy extends ACreature {
         description = "Незаметный, но незаменимый боец домашнего фронта";
         strenght = 2;
         imageFileName = "LDomovoy.jpg";
-        iconFileName = "";
+        iconFileName = "LDomovoy.png";
     }
 
     @Override
-    public ICreature GetOtherForm() {
+    public ICreature getOtherForm() {
         return new HDomovoy();
     }
 }
