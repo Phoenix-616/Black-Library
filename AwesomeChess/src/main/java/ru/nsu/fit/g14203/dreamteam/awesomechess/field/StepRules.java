@@ -136,11 +136,10 @@ public class StepRules {
 
     private static boolean canBishopGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
         if (figureCoord.Y < targetCoord.Y) { //проверяем верхние квадраты
-            canGoTopDiagonals(figureCoord, targetCoord, model);
+            return canGoTopDiagonals(figureCoord, targetCoord, model);
         } else { //проверяем нижние квадраты
-            canGoBottomDiagonals(figureCoord, targetCoord, model);
+            return canGoBottomDiagonals(figureCoord, targetCoord, model);
         }
-        return false;
     }
 
     private static boolean canGoTopDiagonals(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
@@ -156,7 +155,11 @@ public class StepRules {
                 x++;
                 y++;
             }
-            return true;
+            if (x == targetCoord.X && y == targetCoord.Y) {
+                return true;
+            } else {
+                return false;
+            }
         } else { //проверяем левый верхний квадрат
             x = figureCoord.X - 1;
             y = figureCoord.Y + 1;
@@ -167,34 +170,46 @@ public class StepRules {
                 x--;
                 y++;
             }
-            return true;
+            if (x == targetCoord.X && y == targetCoord.Y) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
-    private static boolean canGoBottomDiagonals(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
+    private static boolean canGoBottomDiagonals(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
         int x;
         int y;
         if (figureCoord.X < targetCoord.X) {//проверяем нижний правый квадрат
-        x = figureCoord.X + 1;
-        y = figureCoord.Y - 1;
-        while (y > targetCoord.Y && x < targetCoord.X) {
-            if (!model.cellIsEmpty(new FieldCoord(x, y))) {
+            x = figureCoord.X + 1;
+            y = figureCoord.Y - 1;
+            while (y > targetCoord.Y && x < targetCoord.X) {
+                if (!model.cellIsEmpty(new FieldCoord(x, y))) {
+                    return false;
+                }
+                x++;
+                y--;
+            }
+            if (x == targetCoord.X && y == targetCoord.Y) {
+                return true;
+            } else {
                 return false;
             }
-            x++;
-            y--;
-        }
-        return true;
-    } else { //проверяем нижний левый квадрат
-        x = figureCoord.X - 1;
-        y = figureCoord.Y - 1;
-        while (y > targetCoord.Y && x > targetCoord.X) {
-            if (!model.cellIsEmpty(new FieldCoord(x, y))) {
+        } else { //проверяем нижний левый квадрат
+            x = figureCoord.X - 1;
+            y = figureCoord.Y - 1;
+            while (y > targetCoord.Y && x > targetCoord.X) {
+                if (!model.cellIsEmpty(new FieldCoord(x, y))) {
+                    return false;
+                }
+                x--;
+                y--;
+            }
+            if (x == targetCoord.X && y == targetCoord.Y) {
+                return true;
+            } else {
                 return false;
             }
-            x--;
-            y--;
-        }
-        return true;
         }
     }
 
