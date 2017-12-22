@@ -11,7 +11,7 @@ public class LRusalka extends ACreature {
         description = "Зловредный дух, что защекотит вас насмерть или утопит в близлежащем водоёме";
         strenght = 5;
         imageFileName = "LRusalka.jpg";
-        iconFileName = "LRusalka.png";
+        iconFileNameBlack = "LRusalka.png";
     }
 
     @Override

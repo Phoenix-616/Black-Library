@@ -12,30 +12,33 @@ import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules.FigureType;
  *
  * @author phoenix
  */
-
-
 public class Figure {
-    
-    
-    public static enum FigureColor { WHITE, BLACK};
-    
+
+    public static enum FigureColor {
+        WHITE, BLACK
+    };
+
     private ICreature creature;
     public final FigureType TYPE;
     public final FigureColor COLOR;
-    
+
     public Figure(ICreature cr, FigureType type, FigureColor color) {
         COLOR = color;
         TYPE = type;
         creature = cr;
     }
-    
-    public ICreature getCreature(){
+
+    public ICreature getCreature() {
         return creature;
     }
-    
-    public void setCreature(ICreature cr){
+
+    public String getIconFileName() {
+        return (COLOR == FigureColor.WHITE) ? creature.getIconFileNameWhite() : creature.getIconFileNameBlack();
+
+    }
+
+    public void setCreature(ICreature cr) {
         creature = cr;
     }
-    
-    
+
 }
