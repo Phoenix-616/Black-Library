@@ -12,9 +12,15 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Alena on 22.12.2017.
  */
-public class KingGoingTest {
+public class KingGoingTest extends FigureGoingTest{
     Figure figure = new Figure(new LKochey(), StepRules.FigureType.KING, Figure.FigureColor.WHITE);
-    Model model = new Model();
+
+    @Before
+    public void prepare(){
+        chessBoard[3][3].setFigure(figure);
+        setCell();
+    }
+
 
     @Test
     public void trueTest(){

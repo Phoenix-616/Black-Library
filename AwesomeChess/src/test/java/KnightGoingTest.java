@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LKochey;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LRusalka;
@@ -12,10 +13,14 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Alena on 22.12.2017.
  */
-public class KnightGoingTest {
+public class KnightGoingTest extends FigureGoingTest {
     Figure figure = new Figure(new LRusalka(), StepRules.FigureType.KNIGHT, Figure.FigureColor.WHITE);
-    Model model = new Model();
 
+    @Before
+    public void prepare(){
+        chessBoard[3][3].setFigure(figure);
+        setCell();
+    }
 
     @Test
     public void upRightTest() {
@@ -29,12 +34,12 @@ public class KnightGoingTest {
 
     @Test
     public void downRightTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(2, 1), model)); // нижняя г
+        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(2, 1), model)); // нижняя г, не рубит свои фигуры
     }
 
     @Test
     public void downLeftTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(4, 1), model)); // нижняя г
+        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(4, 1), model)); // нижняя г, е рубит свои фигуры
     }
 
     @Test
