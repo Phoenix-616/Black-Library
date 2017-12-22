@@ -159,7 +159,6 @@ public class Model implements IModel {
             processBattleResults(winner);
 
             SelectedFigCoords = null;
-            selectedCreatures = new LinkedList<>();
         } else {
             log.add(playerLogMark + (whiteTurn ? ("Белый(ая) " + selectedCreatures.getFirst().getName()) : ("Черный(ая) " + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
             SelectedFigCoords = null;
