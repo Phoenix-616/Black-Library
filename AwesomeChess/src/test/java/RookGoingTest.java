@@ -1,3 +1,4 @@
+import org.junit.Before;
 import org.junit.Test;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LBabaYaga;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.LVolkolak;
@@ -12,9 +13,15 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Alena on 22.12.2017.
  */
-public class RookGoingTest {
+public class RookGoingTest extends FigureGoingTest{
     Figure figure = new Figure(new LVolkolak(), StepRules.FigureType.ROOK, Figure.FigureColor.WHITE);
-    Model model = new Model();
+
+    @Before
+    public void prepare(){
+        chessBoard[3][3].setFigure(figure);
+        setCell();
+    }
+
 
     @Test
     public void upTest() {
