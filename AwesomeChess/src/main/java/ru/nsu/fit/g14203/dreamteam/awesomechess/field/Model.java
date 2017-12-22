@@ -1,6 +1,5 @@
 package ru.nsu.fit.g14203.dreamteam.awesomechess.field;
 
-import static java.lang.Integer.min;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -21,8 +20,10 @@ import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules.FigureType;
  */
 public class Model implements IModel {
 
-    private final String playerLogMark = "-- ";
-    private final String demiurgLogMark = "@ ";
+    private static final String playerLogMark = "-- ";
+    private static final String demiurgLogMark = "@ ";
+    private static final String w = "Белый(ая) ";
+    private static final String b = "Черный(ая) ";
 
     private Demiurg demiurg = new Demiurg("Боженька");
 
@@ -103,7 +104,7 @@ public class Model implements IModel {
 
         //если дважды ткнули в одну клетку - выбор фигуры снимается
         if (selectedFigureCoords.equalsTo(coords)) {
-            log.add(playerLogMark + (whiteTurn ? ("Белый(ая) " + selectedCreatures.getFirst().getName()) : ("Черный(ая) " + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
+            log.add(playerLogMark + (whiteTurn ? (w + selectedCreatures.getFirst().getName()) : (b + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
             selectedFigureCoords = null;
             selectedCreatures = new LinkedList<>();
             return;
@@ -149,7 +150,7 @@ public class Model implements IModel {
 
             selectedFigureCoords = null;
         } else {
-            log.add(playerLogMark + (whiteTurn ? ("Белый(ая) " + selectedCreatures.getFirst().getName()) : ("Черный(ая) " + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
+            log.add(playerLogMark + (whiteTurn ? (w + selectedCreatures.getFirst().getName()) : (b + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
             selectedFigureCoords = null;
             selectedCreatures = new LinkedList<>();
         }
@@ -165,7 +166,7 @@ public class Model implements IModel {
                 selectedCreatures = new LinkedList<>();
                 selectedCreatures.add(chessBoard[coords.X][coords.Y].getFigure().getCreature());
 
-                log.add(playerLogMark + (whiteTurn ? "Белый(ая) " : "Черный(ая) ") + selectedCreatures.getFirst().getName() + " ожидает приказа главнокомандующего.");
+                log.add(playerLogMark + (whiteTurn ? w : b) + selectedCreatures.getFirst().getName() + " ожидает приказа главнокомандующего.");
 
                 //строгий порядок записи белого и черного существа в список
                 if (whiteTurn) {
@@ -187,7 +188,7 @@ public class Model implements IModel {
     private void moveFigure(FieldCoord from, FieldCoord to) {
 
         String creatureName = chessBoard[from.X][from.Y].getFigure().getCreature().getName();
-        String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)";
+        String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR == FigureColor.WHITE ? w : b;
 
         chessBoard[to.X][to.Y].setFigure(chessBoard[from.X][from.Y].getFigure());
         chessBoard[from.X][from.Y].setFigure(null);
@@ -234,15 +235,18 @@ public class Model implements IModel {
             case SWITCHLVL:
 
                 if (targetFigure == null) {
-                    log.add(demiurgLogMark + demiurg.name + " махнул рукой, и на клетке (" + joke.where.X + "," + joke.where.Y + ") появились зловредные пикси. Однако цели для своей проказы они не нашли... " + demiurgLogMark);
+                    log.add(demiurgLogMark + demiurg.name + " махнул рукой, и на клетке (" + 
+                            joke.where.X + "," + joke.where.Y + ") появились зловредные маленькие пикси." + 
+                            " Однако цели для своей проказы они не нашли... " + demiurgLogMark);
                     return;
                 }
 
                 String oldCreatureName = targetFigure.getCreature().getName();
 
                 targetFigure.setCreature(targetFigure.getCreature().getOtherForm());
-                log.add(demiurgLogMark + demiurg.name + " пошалил: на клетке (" + joke.where.X + "," + joke.where.Y + ") клубиться розовый туман...");
-                log.add("Туман рассеивается и на месте, где только что стоял(а) " + oldCreatureName + ", оказывается " + targetFigure.getCreature().getName() + " " + demiurgLogMark);
+                log.add(demiurgLogMark + demiurg.name + " пошалил: на клетке (" + joke.where.X + "," + joke.where.Y + "), "
+                        + "где только что стоял(а) " + oldCreatureName + ", клубиться розовый туман...");
+                log.add("Спустя пару минут туман рассеивается - на клетке теперь стоит " + targetFigure.getCreature().getName() + " " + demiurgLogMark);
                 return;
 
             case KILLKINDLY:
@@ -253,10 +257,10 @@ public class Model implements IModel {
                 }
 
                 String deadManName = targetFigure.getCreature().getName();
-                String deadManColor = (FigureColor.WHITE == targetFigure.COLOR ? "Белый(ая) " : "Черный(ая) ");
+                String deadManColor = (FigureColor.WHITE == targetFigure.COLOR ? w : b);
                 chessBoard[joke.where.X][joke.where.Y].setFigure(null);
                 log.add(demiurgLogMark + demiurg.name + " злобно хихикает: на клетку (" + joke.where.X + "," + joke.where.Y + ") только что упал здоровенный валун");
-                log.add(deadManColor + " " + deadManName + ", который(ая) там стоял(а) не выжил(а)... " + demiurgLogMark);
+                log.add(deadManColor + deadManName + " мертв(а)... " + demiurgLogMark);
         }
     }
 
@@ -264,7 +268,7 @@ public class Model implements IModel {
     private Figure battle(Figure firstBattler, Figure secondBattler) {
 
         log.add("== БИТВА ==");
-        log.add("Белый(ая) " + selectedCreatures.getFirst().getName() + " vs Черный(ая) " + selectedCreatures.getLast().getName());
+        log.add(w + selectedCreatures.getFirst().getName() + " vs " + b + selectedCreatures.getLast().getName());
 
         int fistStrength = firstBattler.getCreature().getStrength();
         int secondStrength = secondBattler.getCreature().getStrength();
@@ -286,16 +290,16 @@ public class Model implements IModel {
             strongerBattler = firstBattler;
         }
 
-        weakerColor = (weakerBattler.COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)");
-        strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? "Белый(ая)" : "Черный(ая)");
+        weakerColor = (weakerBattler.COLOR == FigureColor.WHITE ? w : b);
+        strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? w : b);
 
         if (randomizer.nextInt(fistStrength + secondStrength) < minStrength) {
-            log.add(strongerColor + " " + strongerBattler.getCreature().getName() + " замешкался(лась) и потерпел(а) поражение.");
-            log.add(weakerColor + " " + weakerBattler.getCreature().getName() + " с видом победителя оглядывает поле сражения.");
+            log.add(strongerColor + strongerBattler.getCreature().getName() + " замешкался(лась) и потерпел(а) поражение.");
+            log.add(weakerColor + weakerBattler.getCreature().getName() + " с видом победителя оглядывает поле сражения.");
             return weakerBattler;
         }
-        log.add(strongerColor + " " + strongerBattler.getCreature().getName() + " играючи одерживает победу.");
-        log.add(weakerColor + " " + weakerBattler.getCreature().getName() + " покинул(а) этот бренный мир...");
+        log.add(strongerColor + strongerBattler.getCreature().getName() + " играючи одерживает победу.");
+        log.add(weakerColor + weakerBattler.getCreature().getName() + " покинул(а) этот бренный мир...");
 
         return strongerBattler;
     }
@@ -342,7 +346,7 @@ public class Model implements IModel {
 
     public List<String> getLog() {
         LinkedList<String> tempLog = new LinkedList<>(log);
-        log = new LinkedList<String>();
+        log = new LinkedList<>();
         return tempLog;
     }
 
