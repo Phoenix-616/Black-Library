@@ -5,7 +5,6 @@
  */
 package ru.nsu.fit.g14203.dreamteam.awesomechess.field;
 
-import com.sun.beans.util.Cache;
 
 /**
  *
