@@ -22,8 +22,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.creatures.ICreature;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.Cell;
 import ru.nsu.fit.g14203.dreamteam.awesomechess.field.FieldCoord;
@@ -56,18 +54,18 @@ public class SceneController implements Initializable {
 
     private IModel model = null;
     
-    private boolean Alive = true;
+    private boolean alive = true;
 
     /**
      * Initializes the controller class.
      */
-    private ImageView[][] FieldBack = null;
+    private ImageView[][] fieldBack = null;
 
     private class ActionHand implements EventHandler {
 
         @Override
         public void handle(Event event) {
-            if (!Alive) {
+            if (!alive) {
                 return;
             }
             Node obj = (Node) event.getTarget();
@@ -78,30 +76,31 @@ public class SceneController implements Initializable {
             showCreatures();
             updateLogs();
             if (model.blackWin()) {
-                Alive = false;
+                alive = false;
             }
             if (model.whiteWin()) {
-                Alive = false;
+                alive = false;
             }
         }
-
-    }
-
-    private void updateLogs() {
+        
+        private void updateLogs() {
         List<String> l = model.getLog();
         for (String str : l) {
             addInfo(str);
         }
     }
 
+    }
+
     private void showCreatures() {
         List<ICreature> l = model.getSelectedCreatures();
         ICreature c;
+        String res = "resources/";
         try {
             c = l.get(1);
             NameChar1.setText(c.getName());
             DescChar1.setText(c.getDescription());
-            String imgName = "resources/" + c.getImgFileName();
+            String imgName = res + c.getImgFileName();
             Image img = new Image(new File(imgName).toURI().toString());
             ImgChar1.setImage(img);
         } catch (Exception ex) {
@@ -113,7 +112,7 @@ public class SceneController implements Initializable {
             c = l.get(0);
             NameChar2.setText(c.getName());
             DescChar2.setText(c.getDescription());
-            String imgName = "resources/" + c.getImgFileName();
+            String imgName = res + c.getImgFileName();
             Image img = new Image(new File(imgName).toURI().toString());
             ImgChar2.setImage(img);
         } catch (Exception ex) {
@@ -126,7 +125,6 @@ public class SceneController implements Initializable {
 
     private void addInfo(String str) {
         StringBuilder b = new StringBuilder();
-        //b.append(LogTextArea.getText());
         b.append('\n');
         b.append(str);
         b.append('\n');
@@ -141,24 +139,24 @@ public class SceneController implements Initializable {
                 try {
                     String imgName = "resources/" + cur[i][k].getFigure().getIconFileName();
                     Image img = new Image(new File(imgName).toURI().toString());
-                    FieldBack[i][j].setImage(img);
+                    fieldBack[i][j].setImage(img);
                 } catch (Exception ex) {
-                    FieldBack[i][j].setImage(null);
+                    fieldBack[i][j].setImage(null);
                 }
             }
         }
     }
 
     private void initFieldBack() {
-        FieldBack = new ImageView[8][8];
+        fieldBack = new ImageView[8][8];
         boolean white = true;
         for (int i = 0; i < 8; i++) {
             for (int k = 0; k < 8; k++) {
                 int j = 7 - k;
-                FieldBack[i][j] = new ImageView();
-                FieldBack[i][j].setOnMouseClicked(new ActionHand());
-                FieldBack[i][j].fitHeightProperty().bind(MainField.heightProperty().divide(8));
-                FieldBack[i][j].fitWidthProperty().bind(MainField.widthProperty().divide(8));
+                fieldBack[i][j] = new ImageView();
+                fieldBack[i][j].setOnMouseClicked(new ActionHand());
+                fieldBack[i][j].fitHeightProperty().bind(MainField.heightProperty().divide(8));
+                fieldBack[i][j].fitWidthProperty().bind(MainField.widthProperty().divide(8));
                 StackPane pane = new StackPane();
                 if (white) {
                     pane.setStyle("-fx-background-color: grey;");
@@ -167,7 +165,7 @@ public class SceneController implements Initializable {
                 }
                 pane.setOnMouseClicked(new ActionHand());
                 MainField.add(pane, i, j);
-                MainField.add(FieldBack[i][j], i, j);
+                MainField.add(fieldBack[i][j], i, j);
                 white = !white;
             }
             white = !white;
@@ -193,7 +191,7 @@ public class SceneController implements Initializable {
         showField();
         showCreatures();
         LogTextArea.setText("");
-        Alive = true;
+        alive = true;
     }
 
     @FXML
