@@ -116,11 +116,6 @@ public class Model implements IModel {
             return;
         }
 
-        if(whiteTurn){
-            selectedCreatures.addLast(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-        }else{
-            selectedCreatures.addFirst(chessBoard[coords.X][coords.Y].getFigure().getCreature());
-        }
         
         //если фигура ...TYPE может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
         if (StepRules.canFigureGo(chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].getFigure().TYPE, SelectedFigCoords, coords, this)) {
