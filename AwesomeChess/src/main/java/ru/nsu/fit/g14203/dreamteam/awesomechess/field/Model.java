@@ -31,14 +31,8 @@ public class Model implements IModel {
     LinkedList<ICreature> selectedCreatures = new LinkedList<>();
     LinkedList<String> log = new LinkedList<>();
 
-    LinkedList<ICreature> selectedCreatures = new LinkedList<>();
-    LinkedList<String> log = new LinkedList<>();
-
     Random randomizer = new Random();
     
-    int whitesAlive = 12;
-    int blacksAlive = 12;
-
     int whitesAlive = 12;
     int blacksAlive = 12;
 
