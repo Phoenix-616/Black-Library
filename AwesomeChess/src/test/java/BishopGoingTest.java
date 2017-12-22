@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class BishopGoingTest {
     Figure figure = new Figure(new LLesovik(), StepRules.FigureType.BISHOP, Figure.FigureColor.WHITE);
     Model model = new Model();
-
+/*
     @Test
     public void upRightTest() {
         Model model = new Model();
@@ -47,5 +47,5 @@ public class BishopGoingTest {
     public void falseWayTest() {
         assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(4, 4), model)); // по диагонали
     }
-
+*/
 }
