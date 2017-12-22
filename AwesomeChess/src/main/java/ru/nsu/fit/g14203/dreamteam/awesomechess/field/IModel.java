@@ -18,6 +18,7 @@ public interface IModel {
     //Текущее состояние поля
     public Cell[][] GetState();
     //Карточки для отображения, null или пустой список, если нечего отображать
+    //Первая - белое существо, вторая - черное
     public List<ICreature> GetSelectedCreatures();
     //Определитель хода
     public boolean WhiteGoing();
