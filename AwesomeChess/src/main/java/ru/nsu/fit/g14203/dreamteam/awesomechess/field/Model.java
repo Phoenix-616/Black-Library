@@ -71,8 +71,8 @@ public class Model implements IModel {
         chessBoard[2][0] = new Cell(new Figure(new LLesovik(), FigureType.BISHOP, FigureColor.WHITE));
         chessBoard[5][0] = new Cell(new Figure(new LLesovik(), FigureType.BISHOP, FigureColor.WHITE));
 
-        chessBoard[3][0] = new Cell(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.WHITE));
-        chessBoard[4][0] = new Cell(new Figure(new LKochey(), FigureType.KING, FigureColor.WHITE));
+        chessBoard[4][0] = new Cell(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.WHITE));
+        chessBoard[3][0] = new Cell(new Figure(new LKochey(), FigureType.KING, FigureColor.WHITE));
 
         for (int i = 0; i < 8; i++) {
             chessBoard[i][6] = new Cell(new Figure(new LDomovoy(), FigureType.PAWN, FigureColor.BLACK));
@@ -157,10 +157,15 @@ public class Model implements IModel {
             chessBoard[SelectedFigCoords.X][SelectedFigCoords.Y].setFigure(null);
             //победителя помещаем на место атаки
             chessBoard[coords.X][coords.Y].setFigure(winner);
-
+            
             log.add("== БИТВА ОКОНЧЕНА ==");
 
             processBattleResults(winner);
+            
+            //если победила пешка, смотрим ее расположение на поле (дошла до конца или нет)
+            if (winner.TYPE == FigureType.PAWN) 
+                checkPawnTransform(coords);
+            
             SelectedFigCoords = null;
         } else {
             log.add(playerLogMark + (whiteTurn ? ("Белый(ая) " + selectedCreatures.getFirst().getName()) : ("Черный(ая) " + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
@@ -184,29 +189,31 @@ public class Model implements IModel {
         chessBoard[from.X][from.Y].setFigure(null);
 
         log.add(playerLogMark + figureColor + " " + creatureName + " переместился(лась) из клетки (" + from.X + "," + from.Y + ") в клетку (" + from.X + "," + from.Y + ").");
-
+          
+        if (chessBoard[to.X][to.Y].getFigure().TYPE == FigureType.PAWN) 
+            checkPawnTransform(to);
+        
     }
 
-//    private void checkPawn(FieldCoord to) {
-//
-//        if (chessBoard[to.X][to.Y].getFigure().TYPE == FigureType.PAWN) {
-//            if (chessBoard[to.X][to.Y].getFigure().COLOR == FigureColor.WHITE && to.Y == 7) {
-//                chessBoard[to.X][to.Y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.WHITE));
-//                log.add(playerLogMark + "Предприимчивый " + figureColor + " " + creatureName + " достиг просветления. "
-//                        + "На поле новая " + figureColor + " " + chessBoard[to.X][to.Y].getFigure().getCreature().getName());
-//                return;
-//            }
-//
-//            if (chessBoard[to.X][to.Y].getFigure().COLOR == FigureColor.BLACK && to.Y == 0) {
-//                chessBoard[to.X][to.Y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
-//                log.add(playerLogMark + "Предприимчивый " + figureColor + " " + creatureName + " достиг просветления. "
-//                        + "На поле новая " + figureColor + " " + chessBoard[to.X][to.Y].getFigure().getCreature().getName());
-//                return;
-//            }
-//
-//        }
-//
-//    }
+    private void checkPawnTransform(FieldCoord coord) {
+  
+        String prevCreatureName = chessBoard[coord.X][coord.Y].getFigure().getCreature().getName();
+      
+            if (chessBoard[coord.X][coord.Y].getFigure().COLOR == FigureColor.WHITE && coord.Y == 7) {
+                chessBoard[coord.X][coord.Y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.WHITE));
+                log.add(playerLogMark + "Предприимчивый белый " +  prevCreatureName + 
+                        " достиг просветления. На поле новая белая " + chessBoard[coord.X][coord.Y].getFigure().getCreature().getName());
+                return;
+            }
+
+            if (chessBoard[coord.X][coord.Y].getFigure().COLOR == FigureColor.BLACK && coord.Y == 0) {
+                chessBoard[coord.X][coord.Y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
+                log.add(playerLogMark + "Предприимчивый черный " +  prevCreatureName + 
+                        " достиг просветления. На поле новая черная " + chessBoard[coord.X][coord.Y].getFigure().getCreature().getName());
+                return;
+            }
+
+    }
 
     //смена хода (черные->белые или белые->черные) и шалость демиурга
     private void newTurn() {
