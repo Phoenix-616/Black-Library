@@ -17,7 +17,9 @@ public class Cell {
     }
     
     public Cell(Cell o) {
-        this.figure = o.figure;
+        if (o != null) {
+            this.figure = o.figure;
+        }
     }
     
     public Figure getFigure() {
