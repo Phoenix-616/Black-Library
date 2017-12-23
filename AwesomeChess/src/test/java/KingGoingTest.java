@@ -24,18 +24,18 @@ public class KingGoingTest extends FigureGoingTest{
 
     @Test
     public void trueTest(){
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3,3), new FieldCoord(4,4), model)); //начиная с верхнего правого угла иду по часовой стрелке
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3,3), new FieldCoord(4,3), model)); //начиная с верхнего правого угла иду по часовой стрелке
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3,3), new FieldCoord(4,2), model)); //начиная с верхнего правого угла иду по часовой стрелке
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3,3), new FieldCoord(3,2), model)); //начиная с верхнего правого угла иду по часовой стрелке
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3,3), new FieldCoord(2,2), model)); //начиная с верхнего правого угла иду по часовой стрелке
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3,3), new FieldCoord(2,3), model)); //начиная с верхнего правого угла иду по часовой стрелке
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3,3), new FieldCoord(2,4), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3,3), new FieldCoord(4,4), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3,3), new FieldCoord(4,3), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3,3), new FieldCoord(4,2), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3,3), new FieldCoord(3,2), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3,3), new FieldCoord(2,2), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3,3), new FieldCoord(2,3), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3,3), new FieldCoord(2,4), model)); //начиная с верхнего правого угла иду по часовой стрелке
     }
 
     @Test
     public void falseTest() {
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(5, 4), model)); //начиная с верхнего правого угла иду по часовой стрелке
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(0, 0), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(5, 4), model)); //начиная с верхнего правого угла иду по часовой стрелке
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(0, 0), model)); //начиная с верхнего правого угла иду по часовой стрелке
     }
 }

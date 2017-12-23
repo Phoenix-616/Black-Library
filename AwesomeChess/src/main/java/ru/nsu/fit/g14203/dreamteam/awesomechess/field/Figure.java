@@ -19,12 +19,12 @@ public class Figure {
     }
 
     private ICreature creature;
-    public final FigureType TYPE;
-    public final FigureColor COLOR;
+    public final FigureType type;
+    public final FigureColor color;
 
     public Figure(ICreature cr, FigureType type, FigureColor color) {
-        COLOR = color;
-        TYPE = type;
+        this.color = color;
+        this.type = type;
         creature = cr;
     }
 
@@ -33,7 +33,7 @@ public class Figure {
     }
 
     public String getIconFileName() {
-        return (COLOR == FigureColor.WHITE) ? creature.getIconFileNameWhite() : creature.getIconFileNameBlack();
+        return (color == FigureColor.WHITE) ? creature.getIconFileNameWhite() : creature.getIconFileNameBlack();
 
     }
 

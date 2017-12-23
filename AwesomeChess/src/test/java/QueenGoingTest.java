@@ -23,22 +23,22 @@ public class QueenGoingTest extends FigureGoingTest{
 
     @Test
     public void upLeftTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(2, 4), model)); // вверх влево
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(2, 4), model)); // вверх влево
     }
 
     @Test
     public void downRightTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(4, 2), model)); // вниз вправо
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(4, 2), model)); // вниз вправо
     }
 
     @Test
     public void downTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 2), model)); // вниз
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(3, 2), model)); // вниз
     }
 
     @Test
     public void rightTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(7, 3), model)); // вправо
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(7, 3), model)); // вправо
     }
 
 }

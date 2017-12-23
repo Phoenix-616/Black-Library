@@ -22,7 +22,7 @@ public class StepRules {
     }
 
     public static boolean canFigureGo(FigureType figureType, FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
-        if(model.getState()[targetCoord.X][targetCoord.Y].getFigure() != null) {
+        if(model.getState()[targetCoord.x][targetCoord.y].getFigure() != null) {
             if (!checkColor(figureCoord, targetCoord, model)) {
                 return false;
             }
@@ -44,26 +44,23 @@ public class StepRules {
     }
 
     private static boolean checkColor(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
-        if (model.getState()[figureCoord.X][figureCoord.Y].getFigure().COLOR != model.getState()[targetCoord.X][targetCoord.Y].getFigure().COLOR) {
-            return true;
-        }
-        return false;
+        return (model.getState()[figureCoord.x][figureCoord.y].getFigure().color != model.getState()[targetCoord.x][targetCoord.y].getFigure().color);
     }
 
     private static boolean canKingGo(FieldCoord figureCoord, FieldCoord targetCoord) {
 
-        if(targetCoord.Y - figureCoord.Y == 1){ //проверяем верхнюю или нижнюю строку для хода короля
-            if(targetCoord.X == figureCoord.X || targetCoord.X - figureCoord.X == 1 || targetCoord.X - figureCoord.X == -1){
+        if(targetCoord.y - figureCoord.y == 1){ //проверяем верхнюю или нижнюю строку для хода короля
+            if(targetCoord.x == figureCoord.x || targetCoord.x - figureCoord.x == 1 || targetCoord.x - figureCoord.x == -1){
                 return true;
             }
         }
-        else if (targetCoord.Y - figureCoord.Y == -1){ //проверяем боковые ходы
-            if(targetCoord.X == figureCoord.X || targetCoord.X - figureCoord.X == 1 || targetCoord.X - figureCoord.X == -1){
+        else if (targetCoord.y - figureCoord.y == -1){ //проверяем боковые ходы
+            if(targetCoord.x == figureCoord.x || targetCoord.x - figureCoord.x == 1 || targetCoord.x - figureCoord.x == -1){
                 return true;
             }
         }
-        else if (targetCoord.Y == figureCoord.Y){ //проверяем ходы вбок
-            if(targetCoord.X - figureCoord.X == 1 || targetCoord.X - figureCoord.X == -1){
+        else if (targetCoord.y == figureCoord.y){ //проверяем ходы вбок
+            if(targetCoord.x - figureCoord.x == 1 || targetCoord.x - figureCoord.x == -1){
                 return true;
             }
         }
@@ -77,10 +74,10 @@ public class StepRules {
     }
 
     private static boolean canRookGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
-        if (figureCoord.X == targetCoord.X) {  //проверяем вертикальные ходы
+        if (figureCoord.x == targetCoord.x) {  //проверяем вертикальные ходы
             return canGoVertical(figureCoord, targetCoord, model);
         }
-        else if (figureCoord.Y == targetCoord.Y) { //проверяем горизонтальные ходы
+        else if (figureCoord.y == targetCoord.y) { //проверяем горизонтальные ходы
            return canGoHorizontal(figureCoord, targetCoord, model);
         }
         return false;
@@ -88,20 +85,20 @@ public class StepRules {
 
     private static boolean canGoVertical(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
         int y;
-        if (figureCoord.Y < targetCoord.Y) { //проверяем ход вправо вверх
-            y = figureCoord.Y + 1;
-            while (y < targetCoord.Y) {
-                if (!model.cellIsEmpty(new FieldCoord(figureCoord.X, y))) {
+        if (figureCoord.y < targetCoord.y) { //проверяем ход вправо вверх
+            y = figureCoord.y + 1;
+            while (y < targetCoord.y) {
+                if (!model.cellIsEmpty(new FieldCoord(figureCoord.x, y))) {
                     return false;
                 }
                 y++;
             }
             return true;
         }
-        if (figureCoord.Y > targetCoord.Y) { //проверяем ход вниз
-            y = figureCoord.Y - 1;
-            while (y > targetCoord.Y) {
-                if (!model.cellIsEmpty(new FieldCoord(figureCoord.X, y))) {
+        if (figureCoord.y > targetCoord.y) { //проверяем ход вниз
+            y = figureCoord.y - 1;
+            while (y > targetCoord.y) {
+                if (!model.cellIsEmpty(new FieldCoord(figureCoord.x, y))) {
                     return false;
                 }
                 y--;
@@ -113,20 +110,20 @@ public class StepRules {
 
     private static boolean canGoHorizontal(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
         int x;
-        if (figureCoord.X < targetCoord.X) { //проверяе ход вправо
-            x = figureCoord.X + 1;
-            while (x < targetCoord.X) {
-                if (!model.cellIsEmpty(new FieldCoord(x, figureCoord.Y))) {
+        if (figureCoord.x < targetCoord.x) { //проверяе ход вправо
+            x = figureCoord.x + 1;
+            while (x < targetCoord.x) {
+                if (!model.cellIsEmpty(new FieldCoord(x, figureCoord.y))) {
                     return false;
                 }
                 x++;
             }
             return true;
         }
-        if (figureCoord.X > targetCoord.X) { //проверяем ход влево
-            x = figureCoord.X - 1;
-            while (x > targetCoord.X) {
-                if (!model.cellIsEmpty(new FieldCoord(x, figureCoord.Y))) {
+        if (figureCoord.x > targetCoord.x) { //проверяем ход влево
+            x = figureCoord.x - 1;
+            while (x > targetCoord.x) {
+                if (!model.cellIsEmpty(new FieldCoord(x, figureCoord.y))) {
                     return false;
                 }
                 x--;
@@ -138,15 +135,15 @@ public class StepRules {
 
     private static boolean canKnightGo(FieldCoord figureCoord, FieldCoord targetCoord) {
         return(
-           targetCoord.X - figureCoord.X == 2 && (targetCoord.Y - figureCoord.Y == 1 || targetCoord.Y - figureCoord.Y == -1) ||  //проверили правые Гшки
-           targetCoord.X - figureCoord.X == -2 && (targetCoord.Y - figureCoord.Y == 1 || targetCoord.Y - figureCoord.Y == -1) || //проверили левые Гшки
-           targetCoord.Y - figureCoord.Y == 2 && (targetCoord.X - figureCoord.X == 1 || targetCoord.X - figureCoord.X == -1) || //проверили верхние Гшки
-           targetCoord.Y - figureCoord.Y == -2 && (targetCoord.X - figureCoord.X == 1 || targetCoord.X - figureCoord.X == -1) //проверили нижние Гшки
+           targetCoord.x - figureCoord.x == 2 && (targetCoord.y - figureCoord.y == 1 || targetCoord.y - figureCoord.y == -1) ||  //проверили правые Гшки
+           targetCoord.x - figureCoord.x == -2 && (targetCoord.y - figureCoord.y == 1 || targetCoord.y - figureCoord.y == -1) || //проверили левые Гшки
+           targetCoord.y - figureCoord.y == 2 && (targetCoord.x - figureCoord.x == 1 || targetCoord.x - figureCoord.x == -1) || //проверили верхние Гшки
+           targetCoord.y - figureCoord.y == -2 && (targetCoord.x - figureCoord.x == 1 || targetCoord.x - figureCoord.x == -1) //проверили нижние Гшки
         );
     }
 
     private static boolean canBishopGo(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
-        if (figureCoord.Y < targetCoord.Y) { //проверяем верхние квадраты
+        if (figureCoord.y < targetCoord.y) { //проверяем верхние квадраты
             return canGoTopDiagonals(figureCoord, targetCoord, model);
         } else { //проверяем нижние квадраты
             return canGoBottomDiagonals(figureCoord, targetCoord, model);
@@ -156,71 +153,56 @@ public class StepRules {
     private static boolean canGoTopDiagonals(FieldCoord figureCoord, FieldCoord targetCoord, Model model){
         int x = 0;
         int y = 0;
-        if (figureCoord.X < targetCoord.X) { //проверяем правый верхний квадрат
-            x = figureCoord.X + 1;
-            y = figureCoord.Y + 1;
-            while (y < targetCoord.Y && x < targetCoord.X) {
+        if (figureCoord.x < targetCoord.x) { //проверяем правый верхний квадрат
+            x = figureCoord.x + 1;
+            y = figureCoord.y + 1;
+            while (y < targetCoord.y && x < targetCoord.x) {
                 if (!model.cellIsEmpty(new FieldCoord(x, y))) {
                     return false;
                 }
                 x++;
                 y++;
             }
-            if (x == targetCoord.X && y == targetCoord.Y) {
-                return true;
-            } else {
-                return false;
-            }
+            return (x == targetCoord.x && y == targetCoord.y);
         } else { //проверяем левый верхний квадрат
-            x = figureCoord.X - 1;
-            y = figureCoord.Y + 1;
-            while (y < targetCoord.Y && x > targetCoord.X) {
+            x = figureCoord.x - 1;
+            y = figureCoord.y + 1;
+            while (y < targetCoord.y && x > targetCoord.x) {
                 if (!model.cellIsEmpty(new FieldCoord(x, y))) {
                     return false;
                 }
                 x--;
                 y++;
             }
-            if (x == targetCoord.X && y == targetCoord.Y) {
-                return true;
-            } else {
-                return false;
-            }
+            return (x == targetCoord.x && y == targetCoord.y);
         }
     }
+    
     private static boolean canGoBottomDiagonals(FieldCoord figureCoord, FieldCoord targetCoord, Model model) {
         int x;
         int y;
-        if (figureCoord.X < targetCoord.X) {//проверяем нижний правый квадрат
-            x = figureCoord.X + 1;
-            y = figureCoord.Y - 1;
-            while (y > targetCoord.Y && x < targetCoord.X) {
+        if (figureCoord.x < targetCoord.x) {//проверяем нижний правый квадрат
+            x = figureCoord.x + 1;
+            y = figureCoord.y - 1;
+            while (y > targetCoord.y && x < targetCoord.x) {
                 if (!model.cellIsEmpty(new FieldCoord(x, y))) {
                     return false;
                 }
                 x++;
                 y--;
             }
-            if (x == targetCoord.X && y == targetCoord.Y) {
-                return true;
-            } else {
-                return false;
-            }
+            return (x == targetCoord.x && y == targetCoord.y);
         } else { //проверяем нижний левый квадрат
-            x = figureCoord.X - 1;
-            y = figureCoord.Y - 1;
-            while (y > targetCoord.Y && x > targetCoord.X) {
+            x = figureCoord.x - 1;
+            y = figureCoord.y - 1;
+            while (y > targetCoord.y && x > targetCoord.x) {
                 if (!model.cellIsEmpty(new FieldCoord(x, y))) {
                     return false;
                 }
                 x--;
                 y--;
             }
-            if (x == targetCoord.X && y == targetCoord.Y) {
-                return true;
-            } else {
-                return false;
-            }
+            return (x == targetCoord.x && y == targetCoord.y);
         }
     }
 
@@ -228,17 +210,17 @@ public class StepRules {
         int y0;  //y0 - координата той фигуры, которая стоит ниже
         int y1;
         if (model.whiteGoing()) {
-            y0 = figureCoord.Y;
-            y1 = targetCoord.Y;
+            y0 = figureCoord.y;
+            y1 = targetCoord.y;
         } else {
-            y0 = targetCoord.Y;
-            y1 = figureCoord.Y;
+            y0 = targetCoord.y;
+            y1 = figureCoord.y;
         }
         if (y1 - y0 == 1) {
-            if (figureCoord.X == targetCoord.X) { //если пешка идет на 1 вперед
-                return model.cellIsEmpty(new FieldCoord(targetCoord.X, targetCoord.Y));
-            } else if (figureCoord.X - targetCoord.X == 1 || figureCoord.X - targetCoord.X == -1) { //если будет рубить по диагонали
-                return !model.cellIsEmpty(new FieldCoord(targetCoord.X, targetCoord.Y));
+            if (figureCoord.x == targetCoord.x) { //если пешка идет на 1 вперед
+                return model.cellIsEmpty(new FieldCoord(targetCoord.x, targetCoord.y));
+            } else if (figureCoord.x - targetCoord.x == 1 || figureCoord.x - targetCoord.x == -1) { //если будет рубить по диагонали
+                return !model.cellIsEmpty(new FieldCoord(targetCoord.x, targetCoord.y));
             }
         }
         return false;
