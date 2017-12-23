@@ -25,32 +25,32 @@ public class RookGoingTest extends FigureGoingTest{
 
     @Test
     public void upTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 5), model)); // вверх
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(3, 5), model)); // вверх
     }
 
     @Test
     public void downTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 2), model)); // вниз
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(3, 2), model)); // вниз
     }
 
     @Test
     public void rightTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(7, 3), model)); // вправо
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(7, 3), model)); // вправо
     }
 
     @Test
     public void leftTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(0, 3), model)); // влево
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(0, 3), model)); // влево
     }
 
     @Test
     public void figureOnWayTest() {
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 0), model)); // на пути фигура
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(3, 0), model)); // на пути фигура
     }
 
     @Test
     public void falseWayTest() {
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(4, 4), model)); // по диагонали
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(4, 4), model)); // по диагонали
     }
 
 }

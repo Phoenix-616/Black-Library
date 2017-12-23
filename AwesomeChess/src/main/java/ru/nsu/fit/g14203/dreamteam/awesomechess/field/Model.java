@@ -20,10 +20,10 @@ import ru.nsu.fit.g14203.dreamteam.awesomechess.field.StepRules.FigureType;
  */
 public class Model implements IModel {
 
-    private static final String playerLogMark = "-- ";
-    private static final String demiurgLogMark = "@ ";
-    private static final String w = "Белый(ая) ";
-    private static final String b = "Черный(ая) ";
+    private static final String PlayerLogMark = "-- ";
+    private static final String DemiurgLogMark = "@ ";
+    private static final String W = "Белый(ая) ";
+    private static final String B = "Черный(ая) ";
 
     private Demiurg demiurg = new Demiurg("Боженька");
 
@@ -104,14 +104,14 @@ public class Model implements IModel {
 
         //если дважды ткнули в одну клетку - выбор фигуры снимается
         if (selectedFigureCoords.equalsTo(coords)) {
-            log.add(playerLogMark + (whiteTurn ? (w + selectedCreatures.getFirst().getName()) : (b + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
+            log.add(PlayerLogMark + (whiteTurn ? (W + selectedCreatures.getFirst().getName()) : (B + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
             selectedFigureCoords = null;
             selectedCreatures = new LinkedList<>();
             return;
         }
 
-        //если фигура ...TYPE может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
-        if (StepRules.canFigureGo(chessBoard[selectedFigureCoords.X][selectedFigureCoords.Y].getFigure().TYPE, selectedFigureCoords, coords, this)) {
+        //если фигура ...type может перейти из клетки с координатами SelectedFigCoords в клетку с координатами coords...
+        if (StepRules.canFigureGo(chessBoard[selectedFigureCoords.x][selectedFigureCoords.y].getFigure().type, selectedFigureCoords, coords, this)) {
 
             //и если эта клетка пуста...
             if (cellIsEmpty(coords)) {
@@ -124,33 +124,33 @@ public class Model implements IModel {
 
             //если не пуста добавляем противника в список выделенных существ...
             if (whiteTurn) {
-                selectedCreatures.set(1, chessBoard[coords.X][coords.Y].getFigure().getCreature());
+                selectedCreatures.set(1, chessBoard[coords.x][coords.y].getFigure().getCreature());
             } else {
-                selectedCreatures.set(0, chessBoard[coords.X][coords.Y].getFigure().getCreature());
+                selectedCreatures.set(0, chessBoard[coords.x][coords.y].getFigure().getCreature());
             }
 
             //и отправляем бойцов на арену
-            Figure firstBattler = chessBoard[selectedFigureCoords.X][selectedFigureCoords.Y].getFigure();
-            Figure secondBattler = chessBoard[coords.X][coords.Y].getFigure();
+            Figure firstBattler = chessBoard[selectedFigureCoords.x][selectedFigureCoords.y].getFigure();
+            Figure secondBattler = chessBoard[coords.x][coords.y].getFigure();
 
             Figure winner = battle(firstBattler, secondBattler);
             //атакующую фигуру убираем со старого места и...
-            chessBoard[selectedFigureCoords.X][selectedFigureCoords.Y].setFigure(null);
+            chessBoard[selectedFigureCoords.x][selectedFigureCoords.y].setFigure(null);
             //победителя помещаем на место атаки
-            chessBoard[coords.X][coords.Y].setFigure(winner);
+            chessBoard[coords.x][coords.y].setFigure(winner);
 
             log.add("== БИТВА ОКОНЧЕНА ==");
 
             processBattleResults(winner);
 
             //если победила пешка, смотрим ее расположение на поле (дошла до конца или нет)
-            if (winner.TYPE == FigureType.PAWN) {
+            if (winner.type == FigureType.PAWN) {
                 checkPawnTransform(coords);
             }
 
             selectedFigureCoords = null;
         } else {
-            log.add(playerLogMark + (whiteTurn ? (w + selectedCreatures.getFirst().getName()) : (b + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
+            log.add(PlayerLogMark + (whiteTurn ? (W + selectedCreatures.getFirst().getName()) : (B + selectedCreatures.getLast().getName())) + " отправлен(а) во временное увольнение.");
             selectedFigureCoords = null;
             selectedCreatures = new LinkedList<>();
         }
@@ -158,15 +158,15 @@ public class Model implements IModel {
 
     private void selectFigure(FieldCoord coords) {
         if (!cellIsEmpty(coords)) {
-            FigureColor tmpCol = chessBoard[coords.X][coords.Y].getFigure().COLOR;
+            FigureColor tmpCol = chessBoard[coords.x][coords.y].getFigure().color;
 
             //если цвет выделенной фигуры совпадает с цветом хода, фигура может быть выделена
             if ((tmpCol == FigureColor.WHITE && whiteTurn) || (tmpCol == FigureColor.BLACK && !whiteTurn)) {
                 selectedFigureCoords = new FieldCoord(coords);
                 selectedCreatures = new LinkedList<>();
-                selectedCreatures.add(chessBoard[coords.X][coords.Y].getFigure().getCreature());
+                selectedCreatures.add(chessBoard[coords.x][coords.y].getFigure().getCreature());
 
-                log.add(playerLogMark + (whiteTurn ? w : b) + selectedCreatures.getFirst().getName() + " ожидает приказа главнокомандующего.");
+                log.add(PlayerLogMark + (whiteTurn ? W : B) + selectedCreatures.getFirst().getName() + " ожидает приказа главнокомандующего.");
 
                 //строгий порядок записи белого и черного существа в список
                 if (whiteTurn) {
@@ -181,21 +181,21 @@ public class Model implements IModel {
 
     //проверяет, пуста ли клетка с координатами coords
     public boolean cellIsEmpty(FieldCoord coords) {
-        return chessBoard[coords.X][coords.Y].getFigure() == null;
+        return chessBoard[coords.x][coords.y].getFigure() == null;
     }
 
     //перемещает фигуру из клетки с координатами from в клетку с координатами to
     private void moveFigure(FieldCoord from, FieldCoord to) {
 
-        String creatureName = chessBoard[from.X][from.Y].getFigure().getCreature().getName();
-        String figureColor = chessBoard[from.X][from.Y].getFigure().COLOR == FigureColor.WHITE ? w : b;
+        String creatureName = chessBoard[from.x][from.y].getFigure().getCreature().getName();
+        String figureColor = chessBoard[from.x][from.y].getFigure().color == FigureColor.WHITE ? W : B;
 
-        chessBoard[to.X][to.Y].setFigure(chessBoard[from.X][from.Y].getFigure());
-        chessBoard[from.X][from.Y].setFigure(null);
+        chessBoard[to.x][to.y].setFigure(chessBoard[from.x][from.y].getFigure());
+        chessBoard[from.x][from.y].setFigure(null);
 
-        log.add(playerLogMark + figureColor + " " + creatureName + " переместился(лась) из клетки (" + from.X + "," + from.Y + ") в клетку (" + to.X + "," + to.Y + ").");
+        log.add(PlayerLogMark + figureColor + " " + creatureName + " переместился(лась) из клетки (" + from.x + "," + from.y + ") в клетку (" + to.x + "," + to.y + ").");
 
-        if (chessBoard[to.X][to.Y].getFigure().TYPE == FigureType.PAWN) {
+        if (chessBoard[to.x][to.y].getFigure().type == FigureType.PAWN) {
             checkPawnTransform(to);
         }
 
@@ -203,19 +203,19 @@ public class Model implements IModel {
 
     private void checkPawnTransform(FieldCoord coord) {
 
-        String prevCreatureName = chessBoard[coord.X][coord.Y].getFigure().getCreature().getName();
+        String prevCreatureName = chessBoard[coord.x][coord.y].getFigure().getCreature().getName();
 
-        if (chessBoard[coord.X][coord.Y].getFigure().COLOR == FigureColor.WHITE && coord.Y == 7) {
-            chessBoard[coord.X][coord.Y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.WHITE));
-            log.add(playerLogMark + "Предприимчивый белый " + prevCreatureName
-                    + " достиг просветления. На поле новая белая " + chessBoard[coord.X][coord.Y].getFigure().getCreature().getName());
+        if (chessBoard[coord.x][coord.y].getFigure().color == FigureColor.WHITE && coord.y == 7) {
+            chessBoard[coord.x][coord.y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.WHITE));
+            log.add(PlayerLogMark + "Предприимчивый белый " + prevCreatureName
+                    + " достиг просветления. На поле новая белая " + chessBoard[coord.x][coord.y].getFigure().getCreature().getName());
             return;
         }
 
-        if (chessBoard[coord.X][coord.Y].getFigure().COLOR == FigureColor.BLACK && coord.Y == 0) {
-            chessBoard[coord.X][coord.Y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
-            log.add(playerLogMark + "Предприимчивый черный " + prevCreatureName
-                    + " достиг просветления. На поле новая черная " + chessBoard[coord.X][coord.Y].getFigure().getCreature().getName());
+        if (chessBoard[coord.x][coord.y].getFigure().color == FigureColor.BLACK && coord.y == 0) {
+            chessBoard[coord.x][coord.y].setFigure(new Figure(new LBabaYaga(), FigureType.QUEEN, FigureColor.BLACK));
+            log.add(PlayerLogMark + "Предприимчивый черный " + prevCreatureName
+                    + " достиг просветления. На поле новая черная " + chessBoard[coord.x][coord.y].getFigure().getCreature().getName());
             return;
         }
 
@@ -229,38 +229,38 @@ public class Model implements IModel {
 
     private void demiurgIntervention() {
         Joke joke = demiurg.playJoke();
-        Figure targetFigure = chessBoard[joke.where.X][joke.where.Y].getFigure();
+        Figure targetFigure = chessBoard[joke.where.x][joke.where.y].getFigure();
 
         switch (joke.what) {
             case SWITCHLVL:
 
                 if (targetFigure == null) {
-                    log.add(demiurgLogMark + demiurg.name + " махнул рукой, и на клетке (" + 
-                            joke.where.X + "," + joke.where.Y + ") появились зловредные маленькие пикси." + 
-                            " Однако цели для своей проказы они не нашли... " + demiurgLogMark);
+                    log.add(DemiurgLogMark + demiurg.name + " махнул рукой, и на клетке (" + 
+                            joke.where.x + "," + joke.where.y + ") появились зловредные маленькие пикси." + 
+                            " Однако цели для своей проказы они не нашли... " + DemiurgLogMark);
                     return;
                 }
 
                 String oldCreatureName = targetFigure.getCreature().getName();
 
                 targetFigure.setCreature(targetFigure.getCreature().getOtherForm());
-                log.add(demiurgLogMark + demiurg.name + " пошалил: на клетке (" + joke.where.X + "," + joke.where.Y + "), "
+                log.add(DemiurgLogMark + demiurg.name + " пошалил: на клетке (" + joke.where.x + "," + joke.where.y + "), "
                         + "где только что стоял(а) " + oldCreatureName + ", клубиться розовый туман...");
-                log.add("Спустя пару минут туман рассеивается - на клетке теперь стоит " + targetFigure.getCreature().getName() + " " + demiurgLogMark);
+                log.add("Спустя пару минут туман рассеивается - на клетке теперь стоит " + targetFigure.getCreature().getName() + " " + DemiurgLogMark);
                 return;
 
             case KILLKINDLY:
 
                 if (targetFigure == null) {
-                    log.add(demiurgLogMark + demiurg.name + " шарахнул молнией в клетку (" + joke.where.X + "," + joke.where.Y + "). К его величайшему сожалению она была пуста... " + demiurgLogMark);
+                    log.add(DemiurgLogMark + demiurg.name + " шарахнул молнией в клетку (" + joke.where.x + "," + joke.where.y + "). К его величайшему сожалению она была пуста... " + DemiurgLogMark);
                     return;
                 }
 
                 String deadManName = targetFigure.getCreature().getName();
-                String deadManColor = (FigureColor.WHITE == targetFigure.COLOR ? w : b);
-                chessBoard[joke.where.X][joke.where.Y].setFigure(null);
-                log.add(demiurgLogMark + demiurg.name + " злобно хихикает: на клетку (" + joke.where.X + "," + joke.where.Y + ") только что упал здоровенный валун");
-                log.add(deadManColor + deadManName + " мертв(а)... " + demiurgLogMark);
+                String deadManColor = (FigureColor.WHITE == targetFigure.color ? W : B);
+                chessBoard[joke.where.x][joke.where.y].setFigure(null);
+                log.add(DemiurgLogMark + demiurg.name + " злобно хихикает: на клетку (" + joke.where.x + "," + joke.where.y + ") только что упал здоровенный валун");
+                log.add(deadManColor + deadManName + " мертв(а)... " + DemiurgLogMark);
         }
     }
 
@@ -268,7 +268,7 @@ public class Model implements IModel {
     private Figure battle(Figure firstBattler, Figure secondBattler) {
 
         log.add("== БИТВА ==");
-        log.add(w + selectedCreatures.getFirst().getName() + " vs " + b + selectedCreatures.getLast().getName());
+        log.add(W + selectedCreatures.getFirst().getName() + " vs " + B + selectedCreatures.getLast().getName());
 
         int fistStrength = firstBattler.getCreature().getStrength();
         int secondStrength = secondBattler.getCreature().getStrength();
@@ -290,8 +290,8 @@ public class Model implements IModel {
             strongerBattler = firstBattler;
         }
 
-        weakerColor = (weakerBattler.COLOR == FigureColor.WHITE ? w : b);
-        strongerColor = (strongerBattler.COLOR == FigureColor.WHITE ? w : b);
+        weakerColor = (weakerBattler.color == FigureColor.WHITE ? W : B);
+        strongerColor = (strongerBattler.color == FigureColor.WHITE ? W : B);
 
         if (randomizer.nextInt(fistStrength + secondStrength) < minStrength) {
             log.add(strongerColor + strongerBattler.getCreature().getName() + " замешкался(лась) и потерпел(а) поражение.");
@@ -305,7 +305,7 @@ public class Model implements IModel {
     }
 
     private void processBattleResults(Figure winner) {
-        if (winner.COLOR == FigureColor.WHITE) {
+        if (winner.color == FigureColor.WHITE) {
             blacksAlive--;
             if (blacksAlive == 0) {
                 log.add("Яркий свет полуденного солнца освещает мир вокруг, а его жители как ни в чем небывало "

@@ -24,56 +24,56 @@ public class KnightGoingTest extends FigureGoingTest {
 
     @Test
     public void upRightTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(2, 5), model)); // верхняя г
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(2, 5), model)); // верхняя г
     }
 
     @Test
     public void upLeftTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(4, 5), model)); // верхняя г
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(4, 5), model)); // верхняя г
     }
 
     @Test
     public void downRightTest() {
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(2, 1), model)); // нижняя г, не рубит свои фигуры
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(2, 1), model)); // нижняя г, не рубит свои фигуры
     }
 
     @Test
     public void downLeftTest() {
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(4, 1), model)); // нижняя г, е рубит свои фигуры
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(4, 1), model)); // нижняя г, е рубит свои фигуры
     }
 
     @Test
     public void rightUpTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(5, 4), model)); // правая г
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(5, 4), model)); // правая г
     }
 
     @Test
     public void rightDownTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(5, 2), model)); // правая г
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(5, 2), model)); // правая г
     }
 
     @Test
     public void leftUpTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(1, 2), model)); // левая г
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(1, 2), model)); // левая г
     }
 
     @Test
     public void leftDownTest() {
-        assertTrue(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(1, 4), model)); // левая г
+        assertTrue(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(1, 4), model)); // левая г
     }
 
     @Test
     public void falseWayTest() {
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(3, 0), model)); // ход неверный
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(3, 0), model)); // ход неверный
     }
 
     @Test
     public void falseWayTest2() {
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(6, 1), model)); // ход неверный
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(6, 1), model)); // ход неверный
     }
 
     @Test
     public void falseWayTest3() {
-        assertFalse(StepRules.canFigureGo(figure.TYPE, new FieldCoord(3, 3), new FieldCoord(1, 5), model)); // ход неверный
+        assertFalse(StepRules.canFigureGo(figure.type, new FieldCoord(3, 3), new FieldCoord(1, 5), model)); // ход неверный
     }
 }
